@@ -43,6 +43,7 @@ function Network_Other_Tweaking {
     tput setaf 2; echo "Doing other Network Tweaking"
     tput setaf 1
     #Other 1
+    apt-get -qqy install net-tools
     /sbin/ifconfig $interface txqueuelen 10000
     sleep 1
     #Other 2
