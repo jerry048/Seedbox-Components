@@ -15,7 +15,7 @@ function Update {
 ## qBittorrent
 function qBittorrent_download {
     tput setaf 2; echo "Please enter your choice (qBittorrent Version - libtorrent Version):"
-    options=("qBittorrent 4.1.9 - libtorrent-1_1_14" "qBittorrent 4.1.9.1 - libtorrent-1_1_14" "qBittorrent 4.3.3 - libtorrent-v1.2.12-Lactency" "qBittorrent 4.3.3 - libtorrent-v1.2.13" "qBittorrent 4.3.4.1 - libtorrent-v1.2.12-Lactency" "qBittorrent 4.3.4.1 - libtorrent-v1.2.13")
+    options=("qBittorrent 4.1.9 - libtorrent-1_1_14" "qBittorrent 4.1.9.1 - libtorrent-1_1_14" "qBittorrent 4.3.3 - libtorrent-v1.2.12-Lactency" "qBittorrent 4.3.3 - libtorrent-v1.2.13" "qBittorrent 4.3.4.1 - libtorrent-v1.2.12-Lactency" "qBittorrent 4.3.4.1 - libtorrent-v1.2.13" "qBittorrent 4.3.5 - libtorrent-v1.2.13")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -32,10 +32,13 @@ function qBittorrent_download {
                 version=4.3.3; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.3%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
             "qBittorrent 4.3.4.1 - libtorrent-v1.2.13-Lactency")
-                version=4.3.3; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.4.1%20-%20libtorrent-v1.2.12-Lactency/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+                version=4.3.4.1; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.4.1%20-%20libtorrent-v1.2.12-Lactency/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
             "qBittorrent 4.3.4.1 - libtorrent-v1.2.13")
-                version=4.3.3; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.4.1%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+                version=4.3.4.1; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.4.1%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+                ;;
+            "qBittorrent 4.3.5 - libtorrent-v1.2.13")
+                version=4.3.5; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.5%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
             *) tput setaf 1; echo "Please choose a valid version";;
         esac
@@ -176,7 +179,7 @@ EOF
     fi
     sed -i 's+127.0.0.1: +127.0.0.1:+g' $HOME/.config.yml
     mkdir $HOME/.autoremove-torrents
-    chmod 777 $HOME/.autoremove-torrents
+    chmod 755 $HOME/.autoremove-torrents
     touch $HOME/.autoremove.sh
     cat << EOF >$HOME/.autoremove.sh
 #!/bin/sh
