@@ -473,7 +473,7 @@ function BBR_Prepare {
     echo "deb http://deb.debian.org/debian buster-backports main" | sudo tee -a /etc/apt/sources.list
     apt-get -qqy update
     apt-get -qqy install linux-image-5.9.0-0.bpo.5-amd64
-    curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/BBR/BBR.sh && chmod +x BBR.sh
+    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/BBR/BBR.sh && chmod +x BBR.sh
     tput setaf 1
 }
 function BBR_Tweaking {
@@ -482,7 +482,7 @@ function BBR_Tweaking {
     apt-get -qqy install dkms > /dev/null
     apt-get -qqy install linux-headers-$(uname -r) > /dev/null
     tput setaf 7
-    curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/BBR/5.9.0/tcp_bbrx.c
+    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/BBR/5.9.0/tcp_bbrx.c
     kernel_ver=5.9.0
     algo=bbrx
     bbr_file=tcp_$algo

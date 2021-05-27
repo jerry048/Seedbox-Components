@@ -20,25 +20,25 @@ function qBittorrent_download {
     do
         case $opt in
             "qBittorrent 4.1.9 - libtorrent-1_1_14")
-                version=4.1.9; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.1.9%20-%20libtorrent-1_1_14/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+                version=4.1.9; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.1.9%20-%20libtorrent-1_1_14/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
             "qBittorrent 4.1.9.1 - libtorrent-1_1_14")
-                version=4.1.9.1; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.1.9.1%20-%20libtorrent-1_1_14/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+                version=4.1.9.1; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.1.9.1%20-%20libtorrent-1_1_14/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
             "qBittorrent 4.3.3 - libtorrent-v1.2.12-Lactency")
-                version=4.3.3; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.3%20-%20libtorrent-v1.2.12-Lactency/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+                version=4.3.3; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.3%20-%20libtorrent-v1.2.12-Lactency/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
             "qBittorrent 4.3.3 - libtorrent-v1.2.13")
-                version=4.3.3; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.3%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+                version=4.3.3; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.3%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
             "qBittorrent 4.3.4.1 - libtorrent-v1.2.13-Lactency")
-                version=4.3.4.1; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.4.1%20-%20libtorrent-v1.2.12-Lactency/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+                version=4.3.4.1; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.4.1%20-%20libtorrent-v1.2.12-Lactency/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
             "qBittorrent 4.3.4.1 - libtorrent-v1.2.13")
-                version=4.3.4.1; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.4.1%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+                version=4.3.4.1; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.4.1%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
             "qBittorrent 4.3.5 - libtorrent-v1.2.13")
-                version=4.3.5; curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.5%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+                version=4.3.5; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/qBittorrent/qBittorrent%204.3.5%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
             *) tput setaf 1; echo "Please choose a valid version";;
         esac
@@ -93,7 +93,7 @@ WebUI\Port=8080
 WebUI\Username=$username
 EOF
     elif [[ "${version}" =~ "4.2."|"4.3." ]]; then
-        curl -s -O https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/qb_password_gen && chmod +x $HOME/qb_password_gen
+        wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/qb_password_gen && chmod +x $HOME/qb_password_gen
         PBKDF2password=$($HOME/qb_password_gen $password)
         cat << EOF >/home/$username/.config/qBittorrent/qBittorrent.conf
 [LegalNotice]
@@ -138,8 +138,9 @@ function Decision2 {
 }
 function autoremove-torrents {
     tput setaf 7
-    apt-get -qqy install python3-distutils > /dev/null
-    apt-get -qqy install python3-apt > /dev/null
+    apt-get -qqy install python3-distutils
+    apt-get -qqy install python3-apt
+    apt-get -qqy install curl
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
     python3 get-pip.py
     rm get-pip.py
