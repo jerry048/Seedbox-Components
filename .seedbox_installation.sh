@@ -69,6 +69,7 @@ RestartSec=10
 WantedBy=multi-user.target
 EOF
     sudo -u $username mkdir -p /home/$username/qbittorrent/Downloads
+    mkdir -p /home/$username/.config/qBittorrent && chown $username /home/$username/.config/qBittorrent
     systemctl enable qbittorrent-nox@$username
     systemctl start qbittorrent-nox@$username
 }
