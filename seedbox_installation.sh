@@ -12,7 +12,7 @@ function Update {
 
 ## qBittorrent
 function qBittorrent {
-    normal_1; echo "qBittorrent"; warn_2
+    warn_2
     source <(wget -qO- https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent_install.sh)
     qBittorrent_download
     qBittorrent_install
@@ -23,7 +23,7 @@ function qBittorrent {
 
 ## Deluge
 function Deluge {
-    normal_1; echo "Deluge"; warn_2
+    warn_2
     source <(wget -qO- https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/Deluge/Deluge_install.sh)
     Deluge_download
     Deluge_install
@@ -76,17 +76,6 @@ General-de:
         min: $diskspace
         path: /home/$username/
         action: remove-old-seeds
-  delete_data: true
-M-Team-de:          
-  client: Deluge
-  host: 127.0.0.1:$deport
-  username: $username
-  password: $password
-  strategies:
-    Ratio:
-      trackers:
-        - tracker.m-team.cc
-      upload_ratio: 3
   delete_data: true
 EOF
     fi
