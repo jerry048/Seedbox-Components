@@ -113,7 +113,7 @@ function Deluge_config {
   "download_location": "/home/$username/deluge/download", 
   "compact_allocation": false, 
   "max_upload_speed": -1.0, 
-  "cache_expiry": 300
+  "cache_expiry": 300,
   "prioritize_first_last_pieces": false, 
   "auto_managed": true, 
   "enc_level": 2, 
@@ -127,7 +127,7 @@ function Deluge_config {
     0, 
     0
   ], 
-  "seed_time_limit": -1 
+  "seed_time_limit": -1,
   "cache_size": $Cache1, 
   "share_ratio_limit": -1.0, 
   "max_download_speed": -1.0, 
