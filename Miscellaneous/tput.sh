@@ -24,6 +24,6 @@ function normal_4 {
 	tput sgr0
 }
 
-function need_input [
+function need_input {
 	tput sgr0; tput setb 5; tput bold
-]
+}
