@@ -5,7 +5,7 @@ function BBR_Install {
     ## This part of the script is modified from https://github.com/KozakaiAya/TCP_BBR
     apt-get -qqy install dkms
     apt-get -qqy install linux-headers-$(uname -r)
-    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/BBR/Miscellaneous/5.10.0/tcp_bbrx.c
+    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/5.10.0/tcp_bbrx.c
     kernel_ver=5.10.0
     algo=bbrx
     bbr_file=tcp_$algo
