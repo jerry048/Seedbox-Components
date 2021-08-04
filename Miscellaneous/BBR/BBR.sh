@@ -1,24 +1,25 @@
 #!/bin/sh
 
+## Installing BBR
+cd $HOME
 
-function BBR_Install {
-    ## This part of the script is modified from https://github.com/KozakaiAya/TCP_BBR
-    apt-get -qqy install dkms
-    apt-get -qqy install linux-headers-$(uname -r)
-    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/5.10.0/tcp_bbrx.c
-    kernel_ver=5.10.0
-    algo=bbrx
-    bbr_file=tcp_$algo
-    bbr_src=$bbr_file.c
-    bbr_obj=$bbr_file.o
+## This part of the script is modified from https://github.com/KozakaiAya/TCP_BBR
+apt-get -qqy install dkms
+apt-get -qqy install linux-headers-$(uname -r)
+wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/5.10.0/tcp_bbrx.c
+kernel_ver=5.10.0
+algo=bbrx
+bbr_file=tcp_$algo
+bbr_src=$bbr_file.c
+bbr_obj=$bbr_file.o
 
-    mkdir -p $HOME/.bbr/src
-    cd $HOME/.bbr/src
+mkdir -p $HOME/.bbr/src
+cd $HOME/.bbr/src
 
-    mv $HOME/$bbr_src $HOME/.bbr/src/$bbr_src
+mv $HOME/$bbr_src $HOME/.bbr/src/$bbr_src
 
-    # Create Makefile
-    cat > ./Makefile << EOF
+# Create Makefile
+cat > ./Makefile << EOF
 obj-m:=$bbr_obj
 
 default:
@@ -47,46 +48,41 @@ PACKAGE_VERSION=$kernel_ver
 REMAKE_INITRD=yes
 EOF
 
-    # Start dkms install
-    cp -R . /usr/src/$algo-$kernel_ver
+# Start dkms install
+cp -R . /usr/src/$algo-$kernel_ver
 
-    dkms add -m $algo -v $kernel_ver
-    if [ ! $? -eq 0 ]; then
-        dkms remove -m $algo/$kernel_ver --all
-        exit 1
-    fi
+dkms add -m $algo -v $kernel_ver
+if [ ! $? -eq 0 ]; then
+    dkms remove -m $algo/$kernel_ver --all
+    exit 1
+fi
 
-    dkms build -m $algo -v $kernel_ver
-    if [ ! $? -eq 0 ]; then
-        dkms remove -m $algo/$kernel_ver --all
-        exit 1
-    fi
+dkms build -m $algo -v $kernel_ver
+if [ ! $? -eq 0 ]; then
+    dkms remove -m $algo/$kernel_ver --all
+    exit 1
+fi
 
-    dkms install -m $algo -v $kernel_ver
-    if [ ! $? -eq 0 ]; then
-        dkms remove -m $algo/$kernel_ver --all
-        exit 1
-    fi
+dkms install -m $algo -v $kernel_ver
+if [ ! $? -eq 0 ]; then
+    dkms remove -m $algo/$kernel_ver --all
+    exit 1
+fi
 
-    # Test loading module
-    modprobe $bbr_file
-    if [ ! $? -eq 0 ]; then
-        exit 1
-    fi
+# Test loading module
+modprobe $bbr_file
+if [ ! $? -eq 0 ]; then
+    exit 1
+fi
 
-    # Auto-load kernel module at system startup
-    echo $bbr_file | sudo tee -a /etc/modules
-    sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
-    echo "net.ipv4.tcp_congestion_control = $algo" >> /etc/sysctl.conf
-    sysctl -p > /dev/null
+# Auto-load kernel module at system startup
+echo $bbr_file | sudo tee -a /etc/modules
+sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
+echo "net.ipv4.tcp_congestion_control = $algo" >> /etc/sysctl.conf
+sysctl -p > /dev/null
 
-    cd $HOME
-    rm -r $HOME/.bbr
-}
-
-## Installing BBR
 cd $HOME
-BBR_Install
+rm -r $HOME/.bbr
 
 ## Clear
 systemctl disable bbrinstall.service

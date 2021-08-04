@@ -467,7 +467,7 @@ function Tweaked_BBR {
     ## Update Kernel
     normal_1; echo "Updating Kernel"; normal_2
     echo "deb http://deb.debian.org/debian buster-backports main" | sudo tee -a /etc/apt/sources.list
-    apt-get -qqy update && apt-get -qqy install linux-image-5.10.0-0.bpo.8-amd64
+    apt-get -qqy update && apt -qqyt buster-backports upgrade
     ## Install tweaked BBR automatically on reboot
     wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/BBR.sh && chmod +x BBR.sh
     cat << EOF > /etc/systemd/system/bbrinstall.service
