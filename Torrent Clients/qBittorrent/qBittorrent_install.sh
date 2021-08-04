@@ -22,7 +22,7 @@ function qBittorrent_download {
             "qBittorrent 4.3.6 - libtorrent-v1.2.14")
                 version=4.3.6; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.3.6%20-%20libtorrent-v1.2.14/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
-            "qBittorrent 4.4.0 - libtorrent-v2.0.4")
+            "qBittorrent 4.4.0beta1 - libtorrent-v2.0.4")
                 version=4.4.0; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.4.0beta1%20-%20libtorrent-v2.0.4/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
             *) warn_1; echo "Please choose a valid version"; normal_3;;
