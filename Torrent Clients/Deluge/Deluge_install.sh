@@ -83,7 +83,7 @@ EOF
     systemctl enable deluge-web@$username && systemctl start deluge-web@$username
 }
 
-function Deluge_config
+function Deluge_config {
     systemctl stop deluged@$username && systemctl stop deluge-web@$username
     ## Setting up auth file
     echo "$username:$password:10" >> /home/$username/.config/deluge/auth
