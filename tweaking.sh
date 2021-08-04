@@ -469,7 +469,7 @@ function Tweaked_BBR {
     echo "deb http://deb.debian.org/debian buster-backports main" | sudo tee -a /etc/apt/sources.list
     apt-get -qqy update && apt-get -qqy install linux-image-5.10.0-0.bpo.7-amd64
     ## Install tweaked BBR automatically on reboot
-    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/BBR/BBR.sh && chmod +x BBR.sh
+    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/BBR.sh && chmod +x BBR.sh
     cat << EOF > /etc/systemd/system/bbrinstall.service
 [Unit]
 Description=BBRinstall
@@ -484,7 +484,6 @@ RemainAfterExit=true
 WantedBy=multi-user.target
 EOF
     systemctl enable bbrinstall.service
-    tput setb 4
 }
 
 
