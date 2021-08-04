@@ -9,7 +9,7 @@ function warn_2 {
 }
 
 function normal_1 {
-	tput sgr0; tput setb 2; tput bold
+	tput sgr0; tput setaf 2; tput bold
 }
 
 function normal_2 {
