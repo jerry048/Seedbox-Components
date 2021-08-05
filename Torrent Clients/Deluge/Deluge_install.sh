@@ -1,5 +1,6 @@
 libtorrent_Ver=1.1.14
 Deluge_Ver=1.3.15
+dewebport=8112
 
 function Deluge_download {
     normal_1; echo "Downloading Deluge and its dependencies"; normal_2

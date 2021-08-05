@@ -483,7 +483,7 @@ RemainAfterExit=true
 [Install]
 WantedBy=multi-user.target
 EOF
-    systemctl enable bbrinstall.service
+    systemctl enable bbrinstall.service && bbrx=1
 }
 
 
