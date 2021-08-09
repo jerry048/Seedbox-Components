@@ -6,20 +6,20 @@ function Deluge_download {
     normal_1; echo "Downloading Deluge and its dependencies"; normal_2
     if [[ "${Deluge_Ver}" =~ "1.3." ]]; then
         while true; do
-            result=$(wget http://download.deluge-torrent.org/source/deluge-$Deluge_Ver.tar.xz 2>&1)
+            result=$(wget -4 http://download.deluge-torrent.org/source/deluge-$Deluge_Ver.tar.xz 2>&1)
             if [[ ! $result =~ 404 ]]; then
                 break
             fi
-            sleep 5
+            sleep 2
         done
         apt-get -qqy install libboost-all-dev libboost-dev python python-twisted python-openssl python-setuptools intltool python-xdg python-chardet geoip-database python-notify python-pygame python-glade2 librsvg2-common xdg-utils python-mako 
  #  elif [[ "${Deluge_Ver}" =~ "2.0." ]]; then
  #      while true; do
- #          result=$(wget http://download.deluge-torrent.org/source/2.0/deluge-$Deluge_Ver.tar.xz 2>&1)
+ #          result=$(wget -4 http://download.deluge-torrent.org/source/2.0/deluge-$Deluge_Ver.tar.xz 2>&1)
  #          if [[ ! $result =~ 404 ]]; then
  #              break
  #          fi
- #          sleep 5
+ #          sleep 2
  #      done
  #      apt-get -qqy install python3-geoip python3-dbus  python3-gi python3-gi-cairo gir1.2-gtk-3.0 gir1.2-appindicator3 python3-pygame libnotify4 librsvg2-common xdg-utils
     fi
