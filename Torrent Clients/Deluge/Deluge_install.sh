@@ -40,8 +40,8 @@ function Deluge_install {
         exit 1
     fi
     ## Installing Deluge
-    test -e $HOME/deluge-$Deluge_Ver && rm -r $HOME/deluge-$Deluge_Ver
-    tar xf deluge-$Deluge_Ver.tar.xz && rm /root/deluge-$Deluge_Ver.tar.xz && cd deluge-$Deluge_Ver
+    test -e $HOME/deluge-$Deluge_rev && rm -r $HOME/deluge-$Deluge_rev
+    tar xf deluge-$Deluge_rev.tar.xz && rm /root/deluge-$Deluge_rev.xz && cd deluge-$Deluge_rev
     python setup.py clean -a
     python setup.py build
     if [ ! $? -eq 0 ]; then
@@ -53,7 +53,7 @@ function Deluge_install {
         warn_1; echo "Deluge install failed"; normal_4
         exit 1
     fi
-    cd $HOME && rm -r deluge-$Deluge_Ver
+    cd $HOME && rm -r deluge-$Deluge_rev
     ## Creating systemd services 
     cat << EOF > /etc/systemd/system/deluged@.service
 [Unit]
