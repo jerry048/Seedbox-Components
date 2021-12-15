@@ -41,7 +41,7 @@ function Deluge_install {
     fi
     ## Installing Deluge
     test -e $HOME/deluge-$Deluge_rev && rm -r $HOME/deluge-$Deluge_rev
-    tar xf deluge-$Deluge_rev.tar.xz && rm /root/deluge-$Deluge_rev.xz && cd deluge-$Deluge_rev
+    tar xf deluge-$Deluge_rev.tar.xz && rm /root/deluge-$Deluge_rev.tar.xz && cd deluge-$Deluge_rev && wget --no-check-certificate https://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11-py2.7.egg
     python setup.py clean -a
     python setup.py build
     if [ ! $? -eq 0 ]; then
