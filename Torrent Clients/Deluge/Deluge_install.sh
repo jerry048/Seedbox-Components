@@ -1,12 +1,14 @@
 libtorrent_Ver=1.1.14
-Deluge_Ver=1.3.15
+Deluge_majver=1
+Deluge_minver=1.3
+Deluge_rev=1.3.15
 dewebport=8112
 
 function Deluge_download {
     normal_1; echo "Downloading Deluge and its dependencies"; normal_2
     if [[ "${Deluge_Ver}" =~ "1.3." ]]; then
         while true; do
-            result=$(wget -4 http://download.deluge-torrent.org/source/deluge-$Deluge_Ver.tar.xz 2>&1)
+            result=$(wget -4 http://download.deluge-torrent.org/source/$Deluge_minver/deluge-$Deluge_rev.tar.xz 2>&1)
             if [[ ! $result =~ 404 ]]; then
                 break
             fi
@@ -15,7 +17,7 @@ function Deluge_download {
         apt-get -qqy install libboost-all-dev libboost-dev python python-twisted python-openssl python-setuptools intltool python-xdg python-chardet geoip-database python-notify python-pygame python-glade2 librsvg2-common xdg-utils python-mako 
  #  elif [[ "${Deluge_Ver}" =~ "2.0." ]]; then
  #      while true; do
- #          result=$(wget -4 http://download.deluge-torrent.org/source/2.0/deluge-$Deluge_Ver.tar.xz 2>&1)
+ #          result=$(wget -4 http://download.deluge-torrent.org/source/$Deluge_minver/deluge-$Deluge_rev.tar.xz 2>&1)
  #          if [[ ! $result =~ 404 ]]; then
  #              break
  #          fi
