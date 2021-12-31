@@ -1,6 +1,6 @@
 function qBittorrent_download {
     need_input; echo "Please enter your choice (qBittorrent Version - libtorrent Version):"; normal_3
-    options=("qBittorrent 4.1.9 - libtorrent-1_1_14" "qBittorrent 4.1.9.1 - libtorrent-1_1_14" "qBittorrent 4.3.3 - libtorrent-v1.2.13" "qBittorrent 4.3.4.1 - libtorrent-v1.2.13" "qBittorrent 4.3.5 - libtorrent-v1.2.13" "qBittorrent 4.3.6 - libtorrent-v1.2.14" "qBittorrent 4.3.7 - libtorrent-v1.2.14" "qBittorrent 4.3.8 - libtorrent-v1.2.14" "qBittorrent 4.4.0beta2 - libtorrent-v2.0.4")
+    options=("qBittorrent 4.1.9 - libtorrent-1_1_14" "qBittorrent 4.1.9.1 - libtorrent-1_1_14" "qBittorrent 4.3.3 - libtorrent-v1.2.13" "qBittorrent 4.3.4.1 - libtorrent-v1.2.13" "qBittorrent 4.3.5 - libtorrent-v1.2.13" "qBittorrent 4.3.6 - libtorrent-v1.2.14" "qBittorrent 4.3.7 - libtorrent-v1.2.14" "qBittorrent 4.3.8 - libtorrent-v1.2.14" "qBittorrent 4.3.9 - libtorrent-v1.2.15" "qBittorrent 4.4.0beta2 - libtorrent-v2.0.4")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -27,6 +27,9 @@ function qBittorrent_download {
                 ;;
             "qBittorrent 4.3.8 - libtorrent-v1.2.14")
                 version=4.3.8; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.3.8%20-%20libtorrent-v1.2.14/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+                ;;
+            "qBittorrent 4.3.9 - libtorrent-v1.2.15")
+                version=4.3.9; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.3.9%20-%20libtorrent-v1.2.15/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
                 ;;
             "qBittorrent 4.4.0beta2 - libtorrent-v2.0.4")
                 version=4.4.0; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.4.0beta2%20-%20libtorrent-v2.0.4/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
