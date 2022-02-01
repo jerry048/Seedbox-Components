@@ -470,7 +470,7 @@ function Tweaked_BBR {
     if [[ $distro_codename = buster ]]; then
     echo "deb http://deb.debian.org/debian buster-backports main" | sudo tee -a /etc/apt/sources.list
     apt-get -qqy update && apt -qqyt buster-backports upgrade
-    else if [[ $distro_codename = bullseye ]]; then
+    elif [[ $distro_codename = bullseye ]]; then
     echo "deb http://deb.debian.org/debian bullseye-backports main" | sudo tee -a /etc/apt/sources.list
     apt-get -qqy update && apt -qqyt bullseye-backports upgrade
     fi
