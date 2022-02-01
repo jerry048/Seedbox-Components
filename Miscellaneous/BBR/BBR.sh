@@ -8,17 +8,9 @@ apt-get -qqy install dkms
 apt-get -qqy install linux-headers-$(uname -r)
 distro_codename="$(source /etc/os-release && printf "%s" "${VERSION_CODENAME}")"
 if [[ $distro_codename = buster ]]; then
-    ## Update Kernel
-    normal_1; echo "Updating Kernel"; normal_2
-    echo "deb http://deb.debian.org/debian buster-backports main" | sudo tee -a /etc/apt/sources.list
-    apt-get -qqy update && apt -qqyt buster-backports upgrade
     wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/5.10.0/tcp_bbrx.c
     kernel_ver=5.10.0
 else if [[ $distro_codename = bullseye ]] ; then
-    ## Update Kernel
-    normal_1; echo "Updating Kernel"; normal_2
-    echo "deb http://deb.debian.org/debian bullseye-backports main" | sudo tee -a /etc/apt/sources.list
-    apt-get -qqy update && apt -qqyt bullseye-backports upgrade
     wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/5.15.0/tcp_bbrx.c
     kernel_ver=5.15.0
 fi

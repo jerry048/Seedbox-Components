@@ -464,8 +464,17 @@ EOF
 
 ## BBR
 function Tweaked_BBR {
-    ## Install tweaked BBR automatically on reboot
+    ## Update Kernel
+   normal_1; echo "Updating Kernel"; normal_2
+    if [[ $distro_codename = buster ]]; then
+    echo "deb http://deb.debian.org/debian buster-backports main" | sudo tee -a /etc/apt/sources.list
+    apt-get -qqy update && apt -qqyt buster-backports upgrade
+    else if [[ $distro_codename = bullseye ]] ; then
+    echo "deb http://deb.debian.org/debian bullseye-backports main" | sudo tee -a /etc/apt/sources.list
+    apt-get -qqy update && apt -qqyt bullseye-backports upgrade
+    fi
     wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/BBR.sh && chmod +x BBR.sh
+    ## Install tweaked BBR automatically on reboot
     cat << EOF > /etc/systemd/system/bbrinstall.service
 [Unit]
 Description=BBRinstall
