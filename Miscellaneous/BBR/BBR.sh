@@ -10,7 +10,7 @@ distro_codename="$(source /etc/os-release && printf "%s" "${VERSION_CODENAME}")"
 if [[ $distro_codename = buster ]]; then
     wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/5.10.0/tcp_bbrx.c
     kernel_ver=5.10.0
-else if [[ $distro_codename = bullseye ]] ; then
+elif [[ $distro_codename = bullseye ]] ; then
     wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/5.15.0/tcp_bbrx.c
     kernel_ver=5.15.0
 fi
