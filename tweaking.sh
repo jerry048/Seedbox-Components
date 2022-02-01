@@ -465,7 +465,7 @@ EOF
 ## BBR
 function Tweaked_BBR {
     ## Update Kernel
-   normal_1; echo "Updating Kernel"; normal_2
+    normal_1; echo "Updating Kernel"; normal_2
     if [[ $distro_codename = buster ]]; then
     echo "deb http://deb.debian.org/debian buster-backports main" | sudo tee -a /etc/apt/sources.list
     apt-get -qqy update && apt -qqyt buster-backports upgrade
