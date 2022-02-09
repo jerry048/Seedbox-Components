@@ -14,7 +14,7 @@ function Deluge_download {
             fi
             sleep 2
         done
-        apt-get -qqy install libboost-all-dev libboost-dev python python-twisted python-openssl python-setuptools intltool python-xdg python-chardet geoip-database python-notify python-pygame python-glade2 librsvg2-common xdg-utils python-mako 
+        apt-get -qqy install libboost-all-dev libboost-dev python-is-python2 python-twisted python-openssl python-setuptools intltool python-xdg python-chardet geoip-database python-notify python-pygame python-glade2 librsvg2-common xdg-utils python-mako 
  #  elif [[ "${Deluge_minver}" =~ "2.0" ]]; then
  #      while true; do
  #          result=$(wget -4 http://download.deluge-torrent.org/source/$Deluge_minver/deluge-$Deluge_rev.tar.xz 2>&1)
