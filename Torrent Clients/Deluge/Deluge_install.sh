@@ -14,6 +14,7 @@ function Deluge_download {
             fi
             sleep 2
         done
+    fi
     tput sgr0; clear
 }
 
