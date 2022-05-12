@@ -47,6 +47,44 @@ function Deluge_install {
             exit 1
         fi
         cd $HOME && rm -r deluge-$Deluge_rev
+        ## Creating systemd services 
+        cat << EOF > /etc/systemd/system/deluged@.service
+[Unit]
+Description=Deluge-Daemon
+After=network-online.target
+
+[Service]
+Type=simple
+UMask=002
+User=$username
+LimitNOFILE=infinity
+ExecStart=/usr/local/bin/deluged -d
+ExecStop=/usr/bin/killall -w -s 9 /usr/local/bin/deluged
+Restart=on-failure
+TimeoutStopSec=20
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+        cat << EOF > /etc/systemd/system/deluge-web@.service
+[Unit]
+Description=Deluge-WebUI
+After=network-online.target deluged.service
+Wants=deluged.service
+
+[Service]
+Type=simple
+User=$username
+ExecStart=/usr/local/bin/deluge-web
+ExecStop=/usr/bin/killall -w -s 9 /usr/local/bin/deluge-web
+TimeoutStopSec=5
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
     elif [[ $distro_codename = bullseye ]]; then
         apt-get -qqy install libboost-dev libboost-system-dev libboost-chrono-dev libboost-random-dev libssl-dev libgeoip-dev python2 python2-dev python-pkg-resources intltool librsvg2-common xdg-utils geoip-database
         curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py && python2 get-pip.py
@@ -77,9 +115,8 @@ function Deluge_install {
             exit 1
         fi
         cd $HOME && rm -r deluge-$Deluge_rev
-    fi
-    ## Creating systemd services 
-    cat << EOF > /etc/systemd/system/deluged@.service
+        ## Creating systemd services 
+        cat << EOF > /etc/systemd/system/deluged@.service
 [Unit]
 Description=Deluge-Daemon
 After=network-online.target
@@ -99,7 +136,7 @@ RestartSec=10
 WantedBy=multi-user.target
 EOF
 
-    cat << EOF > /etc/systemd/system/deluge-web@.service
+        cat << EOF > /etc/systemd/system/deluge-web@.service
 [Unit]
 Description=Deluge-WebUI
 After=network-online.target deluged.service
@@ -116,6 +153,7 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target
 EOF
+    fi
     mkdir -p /home/$username/deluge/completed /home/$username/deluge/download /home/$username/deluge/torrent && chown -R $username /home/$username/deluge
     mkdir -p /home/$username/.config/deluge/plugins
     systemctl enable deluged@$username && systemctl start deluged@$username
