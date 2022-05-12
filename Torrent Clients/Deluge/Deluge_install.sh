@@ -89,7 +89,7 @@ Type=simple
 UMask=002
 User=$username
 LimitNOFILE=infinity
-ExecStart=/usr/local/bin/deluged -d
+ExecStart=/usr/bin/deluged -d
 ExecStop=/usr/bin/killall -w -s 9 /usr/bin/deluged
 Restart=on-failure
 TimeoutStopSec=20
@@ -108,7 +108,7 @@ Wants=deluged.service
 [Service]
 Type=simple
 User=$username
-ExecStart=/usr/local/bin/deluge-web
+ExecStart=/usr/bin/deluge-web
 ExecStop=/usr/bin/killall -w -s 9 /usr/bin/deluge-web
 TimeoutStopSec=5
 Restart=on-failure
