@@ -5,8 +5,8 @@ Deluge_rev=1.3.15
 dewebport=8112
 
 function Deluge_download {
-    normal_1; echo "Downloading Deluge and its dependencies"; normal_2
-    if [[ "${Deluge_minver}" =~ "1.3" ]]; then
+    normal_1; echo "Downloading Deluge"; normal_2
+    if [[ "${Deluge_minver}" = "1.3" ]]; then
         while true; do
             result=$(wget -4 http://download.deluge-torrent.org/source/$Deluge_minver/deluge-$Deluge_rev.tar.xz 2>&1)
             if [[ ! $result =~ 404 ]]; then
@@ -14,46 +14,69 @@ function Deluge_download {
             fi
             sleep 2
         done
-        apt-get -qqy install libboost-all-dev libboost-dev python python-twisted python-openssl python-setuptools intltool python-xdg python-chardet geoip-database python-notify python-pygame python-glade2 librsvg2-common xdg-utils python-mako 
- #  elif [[ "${Deluge_minver}" =~ "2.0" ]]; then
- #      while true; do
- #          result=$(wget -4 http://download.deluge-torrent.org/source/$Deluge_minver/deluge-$Deluge_rev.tar.xz 2>&1)
- #          if [[ ! $result =~ 404 ]]; then
- #              break
- #          fi
- #          sleep 2
- #      done
- #      apt-get -qqy install python3-geoip python3-dbus  python3-gi python3-gi-cairo gir1.2-gtk-3.0 gir1.2-appindicator3 python3-pygame libnotify4 librsvg2-common xdg-utils
-    fi
-    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/Deluge/libtorrent/libtorrent-rasterbar_$libtorrent_Ver-amd64.deb
     tput sgr0; clear
 }
 
 function Deluge_install {
     normal_1; echo "Installing Deluge"; normal_2
-    ## Installing Libtorrent
-    dpkg -r libtorrent-rasterbar
-    dpkg -i /root/libtorrent-rasterbar_$libtorrent_Ver-amd64.deb && rm /root/libtorrent-rasterbar_$libtorrent_Ver-amd64.deb
-    ldconfig
-    if [ ! $? -eq 0 ]; then
-        warn_1; echo "Libtorrent install failed"; normal_4
-        exit 1
+    distro_codename="$(source /etc/os-release && printf "%s" "${VERSION_CODENAME}")"
+    if [[ $distro_codename = buster ]]; then
+        ## Installing Libtorrent
+        apt-get -qqy install libboost-all-dev libboost-dev python python-twisted python-openssl python-setuptools intltool python-xdg python-chardet geoip-database python-notify python-pygame python-glade2 librsvg2-common xdg-utils python-mako 
+        wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/Deluge/libtorrent/buster_libtorrent-rasterbar_$libtorrent_Ver-amd64.deb
+        dpkg -r libtorrent-rasterbar
+        dpkg -i /root/buster_libtorrent-rasterbar_$libtorrent_Ver-amd64.deb && rm /root/buster_libtorrent-rasterbar_$libtorrent_Ver-amd64.deb
+        ldconfig
+        if [ ! $? -eq 0 ]; then
+            warn_1; echo "Libtorrent install failed"; normal_4
+            exit 1
+        fi
+        ## Installing Deluge
+        test -e $HOME/deluge-$Deluge_rev && rm -r $HOME/deluge-$Deluge_rev
+        tar xf deluge-$Deluge_rev.tar.xz && rm /root/deluge-$Deluge_rev.tar.xz && cd deluge-$Deluge_rev && wget --no-check-certificate https://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11-py2.7.egg
+        python setup.py clean -a
+        python setup.py build
+        if [ ! $? -eq 0 ]; then
+            warn_1; echo "Deluge build failed"; normal_4
+            exit 1
+        fi
+        python setup.py install
+        if [ ! $? -eq 0 ]; then
+            warn_1; echo "Deluge install failed"; normal_4
+            exit 1
+        fi
+        cd $HOME && rm -r deluge-$Deluge_rev
+    elif [[ $distro_codename = bullseye ]]; then
+        apt-get -qqy install libboost-dev libboost-system-dev libboost-chrono-dev libboost-random-dev libssl-dev libgeoip-dev python2 python2-dev python-pkg-resources python-xdg intltool librsvg2-common xdg-utils geoip-database
+        curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py && python2 get-pip.py
+        pip install Twisted service-identity mako chardet pyopenssl
+        wget http://archive.ubuntu.com/ubuntu/pool/universe/p/pyxdg/python-xdg_0.26-1ubuntu1_all.deb
+        dpkg -i python-xdg_0.26-1ubuntu1_all.deb
+        wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/Deluge/boost/boost-1-69-0_20220512-1_amd64.deb
+        dpkg -i boost-1-69-0_20220512-1_amd64.deb
+        wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/Deluge/libtorrent/bullseye_libtorrent-rasterbar_$libtorrent_Ver-amd64.deb
+        dpkg -r libtorrent-rasterbar
+        dpkg -i /root/bullseye_libtorrent-rasterbar_$libtorrent_Ver-amd64.deb && rm /root/bullseye_libtorrent-rasterbar_$libtorrent_Ver-amd64.deb
+        ldconfig
+        if [ ! $? -eq 0 ]; then
+            warn_1; echo "Libtorrent install failed"; normal_4
+            exit 1
+        fi
+        ## Installing Deluge
+        test -e $HOME/deluge-$Deluge_rev && rm -r $HOME/deluge-$Deluge_r
+        tar xJvf deluge-$Deluge_rev.tar.xz && rm /root/deluge-$Deluge_rev.tar.xz && cd deluge-$Deluge_rev
+        python2 setup.py build
+        if [ ! $? -eq 0 ]; then
+            warn_1; echo "Deluge build failed"; normal_4
+            exit 1
+        fi
+        python2 setup.py install --install-layout=deb
+        if [ ! $? -eq 0 ]; then
+            warn_1; echo "Deluge install failed"; normal_4
+            exit 1
+        fi
+        cd $HOME && rm -r deluge-$Deluge_rev
     fi
-    ## Installing Deluge
-    test -e $HOME/deluge-$Deluge_rev && rm -r $HOME/deluge-$Deluge_rev
-    tar xf deluge-$Deluge_rev.tar.xz && rm /root/deluge-$Deluge_rev.tar.xz && cd deluge-$Deluge_rev && wget --no-check-certificate https://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11-py2.7.egg
-    python setup.py clean -a
-    python setup.py build
-    if [ ! $? -eq 0 ]; then
-        warn_1; echo "Deluge build failed"; normal_4
-        exit 1
-    fi
-    python setup.py install
-    if [ ! $? -eq 0 ]; then
-        warn_1; echo "Deluge install failed"; normal_4
-        exit 1
-    fi
-    cd $HOME && rm -r deluge-$Deluge_rev
     ## Creating systemd services 
     cat << EOF > /etc/systemd/system/deluged@.service
 [Unit]
