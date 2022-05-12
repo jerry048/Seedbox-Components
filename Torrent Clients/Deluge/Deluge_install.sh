@@ -48,7 +48,7 @@ function Deluge_install {
         fi
         cd $HOME && rm -r deluge-$Deluge_rev
     elif [[ $distro_codename = bullseye ]]; then
-        apt-get -qqy install libboost-dev libboost-system-dev libboost-chrono-dev libboost-random-dev libssl-dev libgeoip-dev python2 python2-dev python-pkg-resources python-xdg intltool librsvg2-common xdg-utils geoip-database
+        apt-get -qqy install libboost-dev libboost-system-dev libboost-chrono-dev libboost-random-dev libssl-dev libgeoip-dev python2 python2-dev python-pkg-resources intltool librsvg2-common xdg-utils geoip-database
         curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py && python2 get-pip.py
         pip install Twisted service-identity mako chardet pyopenssl
         wget http://archive.ubuntu.com/ubuntu/pool/universe/p/pyxdg/python-xdg_0.26-1ubuntu1_all.deb
