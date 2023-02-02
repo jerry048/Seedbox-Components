@@ -5,7 +5,7 @@ function Update {
     normal_1; echo "Updating installed packages and install prerequisite"
     normal_2
     apt-get -qqy update && apt-get -qqy upgrade
-    apt-get -qqy install sudo sysstat htop curl psmisc
+    apt-get -qqy install sudo sysstat htop curl psmisc python3-pyqt5
     cd $HOME
     tput sgr0; clear
 }
