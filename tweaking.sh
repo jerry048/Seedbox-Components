@@ -101,8 +101,46 @@ EOF
 
 
 ## sysctl.conf
+
 function kernel_Tweaking {
     normal_1; echo "Configuring sysctl.conf"; warn_2
+    # Grabing the informations of the server to be used in determining certain Tweaking parameters
+    memsize=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+    if (($memsize > 16000000)); then
+        rmem_default=16777216
+        rmem_max=67108864
+        wmem_default=16777216
+        wmem_max=67108864
+        tcp_mem='262144 1572864 2097152'
+        tcp_rmem='4194304 16777216 67108864'
+        tcp_wmem='4194304 16777216 67108864'
+    elif (($memsize > 8000000)); then
+        rmem_default=16777216
+        rmem_max=33554432
+        wmem_default=16777216
+        wmem_max=33554432
+        tcp_mem='262144 524288 1048576'
+        tcp_rmem='4194304 16777216 33554432'
+        tcp_wme='4194304 16777216 33554432'
+    elif (($memsize > 4000000)); then
+        rmem_default=8388608
+        rmem_max=16777216
+        wmem_default=8388608
+        wmem_max=16777216
+        tcp_mem='32768 65536 65536'
+        tcp_rmem='4194304 8388608 16777216'
+        tcp_wmem='4194304 8388608 16777216'
+    else
+        rmem_default=8388608
+        rmem_max=8388608
+        wmem_default=8388608
+        wmem_max=8388608
+        tcp_mem='32768 32768 32768'
+        tcp_rmem='4194304 8388608 8388608'
+        tcp_wmem='4194304 8388608 8388608'
+    fi
+
+
     cat << EOF >/etc/sysctl.conf
 ###/proc/sys/kernel/ Variables:
 ##https://www.kernel.org/doc/Documentation/admin-guide/sysctl/kernel.rst
@@ -211,12 +249,12 @@ net.core.netdev_max_backlog = 100000
 
 
 # Receive socket buffer size
-net.core.rmem_default = 16777216
-net.core.rmem_max = 67108864
+net.core.rmem_default = $rmem_default
+net.core.rmem_max = $rmem_max
 
 # Send socket buffer size
-net.core.wmem_default = 16777216
-net.core.wmem_max = 67108864
+net.core.wmem_default = $wmem_default
+net.core.wmem_max = $wmem_max
 
 # Maximum ancillary buffer size allowed per socket
 net.core.optmem_max = 4194304
@@ -330,7 +368,7 @@ net.ipv4.tcp_ecn = 0
 #	under "min".
 #
 #	max: number of pages allowed for queuing by all TCP sockets
-net.ipv4.tcp_mem = 262144 1572864 2097152
+net.ipv4.tcp_mem = $tcp_mem
 
 # TCP sockets receive buffer
 # Vector of 3 INTEGERs: min, default, max
@@ -346,7 +384,7 @@ net.ipv4.tcp_mem = 262144 1572864 2097152
 #	net.core.rmem_max.  Calling setsockopt() with SO_RCVBUF disables
 #	automatic tuning of that socket's receive buffer size, in which
 #	case this value is ignored.
-net.ipv4.tcp_rmem = 4194304 16777216 67108864
+net.ipv4.tcp_rmem = $tcp_rmem
 
 # Disable receive buffer auto-tuning
 net.ipv4.tcp_moderate_rcvbuf = 0
@@ -377,7 +415,7 @@ net.ipv4.tcp_adv_win_scale = 2
 #	net.core.wmem_max.  Calling setsockopt() with SO_SNDBUF disables
 #	automatic tuning of that socket's send buffer size, in which case
 #	this value is ignored.
-net.ipv4.tcp_wmem = 4194304 16777216 67108864
+net.ipv4.tcp_wmem = $tcp_wmem
 
 
 # Reordering level of packets in a TCP stream
