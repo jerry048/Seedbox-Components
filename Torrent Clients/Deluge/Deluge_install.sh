@@ -205,7 +205,7 @@ function Deluge_config {
     0
   ], 
   "seed_time_limit": -1,
-  "cache_size": $Cache1, 
+  "cache_size": $Cache_de, 
   "share_ratio_limit": -1.0, 
   "max_download_speed": -1.0, 
   "geoip_db_location": "/usr/share/GeoIP/GeoIP.dat", 

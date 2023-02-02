@@ -554,7 +554,7 @@ function Deluge_libtorrent {
     "read_cache_line_size": 128, 
     "initial_picker_threshold": 10, 
     "enable_outgoing_utp": false, 
-    "cache_size": $Cache1, 
+    "cache_size": $Cache_de, 
     "low_prio_disk": false
   }
 }

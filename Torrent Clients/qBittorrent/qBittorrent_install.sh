@@ -4,39 +4,28 @@ function qBittorrent_download {
     select opt in "${options[@]}"
     do
         case $opt in
-            "qBittorrent 4.1.9 - libtorrent-1_1_14")
-                version=4.1.9; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.1.9%20-%20libtorrent-1_1_14/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
-                ;;
             "qBittorrent 4.1.9.1 - libtorrent-1_1_14")
-                version=4.1.9.1; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.1.9.1%20-%20libtorrent-1_1_14/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+                qBver=4.3.9 && libver=libtorrent-1_1_14; break
                 ;;
-            "qBittorrent 4.3.3 - libtorrent-v1.2.13")
-                version=4.3.3; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.3.3%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+            "qBittorrent 4.3.9 - libtorrent-v1.2.18")
+                qBver=4.3.9 && libver=libtorrent-v1.2.18; break
                 ;;
-            "qBittorrent 4.3.4.1 - libtorrent-v1.2.13")
-                version=4.3.4.1; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.3.4.1%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+            "qBittorrent 4.4.5 - libtorrent-v1.2.18")
+                qBver=4.4.5 && libver=libtorrent-v1.2.18; break
                 ;;
-            "qBittorrent 4.3.5 - libtorrent-v1.2.13")
-                version=4.3.5; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.3.5%20-%20libtorrent-v1.2.13/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+            "qBittorrent 4.4.5 - libtorrent-v2.0.8")
+                qBver=4.4.5 && libver=libtorrent-v2.0.8; break
                 ;;
-            "qBittorrent 4.3.6 - libtorrent-v1.2.14")
-                version=4.3.6; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.3.6%20-%20libtorrent-v1.2.14/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+            "qBittorrent 4.5.0 - libtorrent-v1.2.18")
+                qBver=4.5.0 && libver=libtorrent-v1.2.18; break
                 ;;
-            "qBittorrent 4.3.7 - libtorrent-v1.2.14")
-                version=4.3.7; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.3.7%20-%20libtorrent-v1.2.14/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
-                ;;
-            "qBittorrent 4.3.8 - libtorrent-v1.2.14")
-                version=4.3.8; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.3.8%20-%20libtorrent-v1.2.14/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
-                ;;
-            "qBittorrent 4.3.9 - libtorrent-v1.2.15")
-                version=4.3.9; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.3.9%20-%20libtorrent-v1.2.15/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
-                ;;
-            "qBittorrent 4.4.0beta2 - libtorrent-v2.0.4")
-                version=4.4.0; wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%204.4.0beta2%20-%20libtorrent-v2.0.4/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox; break
+            "qBittorrent 4.5.0 - libtorrent-v2.0.8")
+                qBver=4.5.0 && libver=libtorrent-v2.0.8; break
                 ;;
             *) warn_1; echo "Please choose a valid version"; normal_3;;
         esac
     done
+    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent/qBittorrent%20$qBver%20-%20$libver/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox
 }
 
 function qBittorrent_install {
@@ -74,7 +63,7 @@ EOF
 
 function qBittorrent_config {
     systemctl stop qbittorrent-nox@$username
-    if [[ "${version}" =~ "4.1." ]]; then
+    if [[ "${qBver}" =~ "4.1." ]]; then
         md5password=$(echo -n $password | md5sum | awk '{print $1}')
         cat << EOF >/home/$username/.config/qBittorrent/qBittorrent.conf
 [LegalNotice]
@@ -92,21 +81,45 @@ WebUI\Password_ha1=@ByteArray($md5password)
 WebUI\Port=8080
 WebUI\Username=$username
 EOF
-    elif [[ "${version}" =~ "4.2."|"4.3."|"4.4." ]]; then
+    elif [[ "${qBver}" =~ "4.2."|"4.3." ]]; then
         wget  https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qb_password_gen && chmod +x $HOME/qb_password_gen
         PBKDF2password=$($HOME/qb_password_gen $password)
         cat << EOF >/home/$username/.config/qBittorrent/qBittorrent.conf
 [LegalNotice]
 Accepted=true
 
-[Network]+
+[Network]
 Cookies=@Invalid()
 
 [Preferences]
 Connection\PortRangeMin=45000
-Downloads\DiskWriteCacheSize=$Cache2
+Downloads\DiskWriteCacheSize=$Cache_qB
 Downloads\SavePath=/home/$username/qbittorrent/Downloads/
 Queueing\QueueingEnabled=false
+WebUI\Password_PBKDF2="@ByteArray($PBKDF2password)"
+WebUI\Port=8080
+WebUI\Username=$username
+EOF
+    elif [[ "${qBver}" =~ "4.4."|"4.5." ]]; then
+        wget  https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qb_password_gen && chmod +x $HOME/qb_password_gen
+        PBKDF2password=$($HOME/qb_password_gen $password)
+        cat << EOF >/home/$username/.config/qBittorrent/qBittorrent.conf
+[Application]
+MemoryWorkingSetLimit=$Cache_qB
+
+[BitTorrent]
+Session\DefaultSavePath=/home/$username/qbittorrent/Downloads/
+Session\DiskCacheSize=$Cache_qB
+Session\Port=45000
+Session\QueueingSystemEnabled=false
+
+[LegalNotice]
+Accepted=true
+
+[Network]
+Cookies=@Invalid()
+
+[Preferences]
 WebUI\Password_PBKDF2="@ByteArray($PBKDF2password)"
 WebUI\Port=8080
 WebUI\Username=$username
