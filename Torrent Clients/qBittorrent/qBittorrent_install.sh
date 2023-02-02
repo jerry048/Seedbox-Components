@@ -5,7 +5,7 @@ function qBittorrent_download {
     do
         case $opt in
             "qBittorrent 4.1.9.1 - libtorrent-1_1_14")
-                qBver=4.3.9 && libver=libtorrent-1_1_14; break
+                qBver=4.1.9.1 && libver=libtorrent-1_1_14; break
                 ;;
             "qBittorrent 4.3.9 - libtorrent-v1.2.18")
                 qBver=4.3.9 && libver=libtorrent-v1.2.18; break
