@@ -67,7 +67,8 @@ function Scheduler_Tweaking {
     done
     i=1
     x=0
-    disktype=$(cat /sys/block/sda/queue/rotational)
+    disk_name=$(printf $(lsblk | grep -m1 'disk' | awk '{print $1}'))
+    disktype=$(cat /sys/block/$disk_name/queue/rotational)
     if [ "${disktype}" == 0 ]; then
 	    while [ $i -le $diskno ]
 	    do
