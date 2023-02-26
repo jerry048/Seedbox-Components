@@ -120,7 +120,7 @@ function kernel_Tweaking {
 
     interface=$(/sbin/ip -o -4 route show to default | awk '{print $5}')
     nic_speed=$(ethtool $interface | grep Speed | awk '{print $2}' | tr -d -c 0-9)
-    if (($nic_speed = 10000)); then
+    if (($nic_speed == 10000)); then
         rmem_default=33554432
         rmem_max=67108864
         wmem_default=67108864
