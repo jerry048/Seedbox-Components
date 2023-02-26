@@ -107,39 +107,34 @@ function kernel_Tweaking {
     # Grabing the informations of the server to be used in determining certain Tweaking parameters
     memsize=$(grep MemTotal /proc/meminfo | awk '{print $2}')
     if (($memsize > 16000000)); then
-        rmem_default=16777216
-        rmem_max=67108864
-        wmem_default=16777216
-        wmem_max=67108864
         tcp_mem='262144 1572864 2097152'
-        tcp_rmem='4194304 16777216 67108864'
-        tcp_wmem='4194304 16777216 67108864'
     elif (($memsize > 8000000)); then
+        tcp_mem='262144 524288 1048576'
+    elif (($memsize > 4000000)); then
+        tcp_mem='32768 65536 65536'
+    else
+        tcp_mem='32768 32768 32768'
+
+    fi
+
+    interface=$(/sbin/ip -o -4 route show to default | awk '{print $5}')
+    nic_speed=$(ethtool $interface | grep Speed | awk '{print $2}' | tr -d -c 0-9)
+    if (($nic_speed = 10000)); then
+        rmem_default=33554432
+        rmem_max=67108864
+        wmem_default=67108864
+        wmem_max=134217728
+        tcp_rmem='4194304 33554432 67108864'
+        tcp_wmem='4194304 67108864 134217728'
+    else
         rmem_default=16777216
         rmem_max=33554432
         wmem_default=16777216
         wmem_max=33554432
-        tcp_mem='262144 524288 1048576'
         tcp_rmem='4194304 16777216 33554432'
-        tcp_wme='4194304 16777216 33554432'
-    elif (($memsize > 4000000)); then
-        rmem_default=8388608
-        rmem_max=16777216
-        wmem_default=8388608
-        wmem_max=16777216
-        tcp_mem='32768 65536 65536'
-        tcp_rmem='4194304 8388608 16777216'
-        tcp_wmem='4194304 8388608 16777216'
-    else
-        rmem_default=8388608
-        rmem_max=8388608
-        wmem_default=8388608
-        wmem_max=8388608
-        tcp_mem='32768 32768 32768'
-        tcp_rmem='4194304 8388608 8388608'
-        tcp_wmem='4194304 8388608 8388608'
-    fi
+        tcp_wmem='4194304 16777216 33554432'
 
+    fi
 
     cat << EOF >/etc/sysctl.conf
 ###/proc/sys/kernel/ Variables:
@@ -386,8 +381,8 @@ net.ipv4.tcp_mem = $tcp_mem
 #	case this value is ignored.
 net.ipv4.tcp_rmem = $tcp_rmem
 
-# Disable receive buffer auto-tuning
-net.ipv4.tcp_moderate_rcvbuf = 0
+# Enable receive buffer auto-tuning
+net.ipv4.tcp_moderate_rcvbuf = 1
 
 # Distribution of socket receive buffer space between TCP window size(this is the size of the receive window advertised to the other end), and application buffer/
 #The overhead (application buffer) is counted as bytes/2^tcp_adv_win_scale i.e. Setting this 2 would mean we use 1/4 of socket buffer space as overhead
@@ -482,8 +477,8 @@ net.ipv4.tcp_window_scaling = 1
 net.ipv4.tcp_workaround_signed_windows = 1
 
 
-# The maximum amount of unsent bytes in TCP socket write queue
-net.ipv4.tcp_notsent_lowat = 983040
+# The maximum amount of unsent bytes in TCP socket write queue, this is on top of the congestion window
+net.ipv4.tcp_notsent_lowat = 131072
 
 # Controls the amount of data in the Qdisc queue or device queue
 net.ipv4.tcp_limit_output_bytes = 3276800
