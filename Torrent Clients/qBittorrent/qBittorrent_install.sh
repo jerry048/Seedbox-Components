@@ -67,7 +67,8 @@ EOF
 
 function qBittorrent_config {
     ## Determine if it is a SSD or a HDD and tune certain parameters
-    disktype=$(cat /sys/block/sda/queue/rotational)
+    disk_name=$(printf $(lsblk | grep -m1 'disk' | awk '{print $1}'))
+    disktype=$(cat /sys/block/$disk_name/queue/rotational)
     if [ "${disktype}" == 0 ]; then
         aio=12
         low_buffer=5120
