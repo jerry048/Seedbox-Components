@@ -5,7 +5,7 @@ function qBittorrent_download {
     select opt in "${options[@]}"
     do
         case $opt in
-            "qBittorrent 4.1.9. - libtorrent-1_1_14")
+            "qBittorrent 4.1.9 - libtorrent-1_1_14")
                 qBver=4.1.9 && libver=libtorrent-1_1_14; break
                 ;;
             "qBittorrent 4.1.9.1 - libtorrent-1_1_14")
