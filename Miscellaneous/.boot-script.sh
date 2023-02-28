@@ -26,25 +26,17 @@ do
 	drive+=($device)
 	i=$(( $i + 1 ))
 done
-i=1
-x=0
-disktype=$(cat /sys/block/sda/queue/rotational)
-if [ "${disktype}" == 0 ]; then
-	while [ $i -le $diskno ]
-	do
-		diskname=$(eval echo ${drive["$x"]})
+i=1 x=0
+while [ $i -le $diskno ]
+do
+	diskname=$(eval echo ${drive["$x"]})
+	disktype=$(cat /sys/block/$diskname/queue/rotational)
+	if [ "${disktype}" == 0 ]; then		
 		echo kyber > /sys/block/$diskname/queue/scheduler
-		i=$(( $i + 1 ))
-		x=$(( $x + 1 ))
-	done
-else
-	while [ $i -le $diskno ]
-	do
-		diskname=$(eval echo ${drive["$x"]})
+	else
 		echo mq-deadline > /sys/block/$diskname/queue/scheduler
-		i=$(( $i + 1 ))
-		x=$(( $x + 1 ))
-	done
-fi
+	fi
+i=$(( $i + 1 )) x=$(( $x + 1 ))
+done
 clear
 exit 0
