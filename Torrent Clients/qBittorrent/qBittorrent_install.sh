@@ -1,7 +1,7 @@
 function qBittorrent_download {
     ## Allow users to determine which version of qBittorrent to be installed
     need_input; echo "Please enter your choice (qBittorrent Version - libtorrent Version):"; normal_3
-    options=("qBittorrent 4.1.9 - libtorrent-1_1_14" "qBittorrent 4.1.9.1 - libtorrent-1_1_14" "qBittorrent 4.3.8 - libtorrent-v1.2.14" "qBittorrent 4.3.9 - libtorrent-v1.2.18" "qBittorrent 4.4.5 - libtorrent-v1.2.18" "qBittorrent 4.4.5 - libtorrent-v2.0.8" "qBittorrent 4.5.1 - libtorrent-v1.2.18" "qBittorrent 4.5.1 - libtorrent-v2.0.8")
+    options=("qBittorrent 4.1.9 - libtorrent-1_1_14" "qBittorrent 4.1.9.1 - libtorrent-1_1_14" "qBittorrent 4.3.8 - libtorrent-v1.2.14" "qBittorrent 4.3.9 - libtorrent-v1.2.18" "qBittorrent 4.4.5 - libtorrent-v1.2.18" "qBittorrent 4.4.5 - libtorrent-v2.0.8" "qBittorrent 4.5.2 - libtorrent-v1.2.18" "qBittorrent 4.5.2 - libtorrent-v2.0.8")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -23,11 +23,11 @@ function qBittorrent_download {
             "qBittorrent 4.4.5 - libtorrent-v2.0.8")
                 qBver=4.4.5 && libver=libtorrent-v2.0.8; break
                 ;;
-            "qBittorrent 4.5.1 - libtorrent-v1.2.18")
-                qBver=4.5.1 && libver=libtorrent-v1.2.18; break
+            "qBittorrent 4.5.2 - libtorrent-v1.2.18")
+                qBver=4.5.2 && libver=libtorrent-v1.2.18; break
                 ;;
-            "qBittorrent 4.5.1 - libtorrent-v2.0.8")
-                qBver=4.5.1 && libver=libtorrent-v2.0.8; break
+            "qBittorrent 4.5.2 - libtorrent-v2.0.8")
+                qBver=4.5.2 && libver=libtorrent-v2.0.8; break
                 ;;
             *) warn_1; echo "Please choose a valid version"; normal_3;;
         esac
