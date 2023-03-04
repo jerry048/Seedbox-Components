@@ -103,7 +103,7 @@ Cookies=@Invalid()
 
 [Preferences]
 Connection\PortRangeMin=45000
-Downloads\DiskWriteCacheSize=$Cache2
+Downloads\DiskWriteCacheSize=$Cache_qB
 Downloads\SavePath=/home/$username/qbittorrent/Downloads/
 Queueing\QueueingEnabled=false
 WebUI\Password_ha1=@ByteArray($md5password)
