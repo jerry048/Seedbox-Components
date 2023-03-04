@@ -13,7 +13,7 @@ function Update {
 ## qBittorrent
 function qBittorrent {
     warn_2
-    source <(wget -qO- https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent_install.sh)
+    source <(wget -qO- https://raw.githubusercontent.com/orbit666/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent_install.sh)
     qBittorrent_download
     qBittorrent_install
     qBittorrent_config
