@@ -11,8 +11,8 @@ if [[ $distro_codename = buster ]]; then
     wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/5.10.0/tcp_bbrx.c
     kernel_ver=5.10.0
 elif [[ $distro_codename = bullseye ]] ; then
-    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/6.0.0/tcp_bbrx.c
-    kernel_ver=6.0.0
+    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/5.15.0/tcp_bbrx.c
+    kernel_ver=5.15.0
 fi
 algo=bbrx
 bbr_file=tcp_$algo
