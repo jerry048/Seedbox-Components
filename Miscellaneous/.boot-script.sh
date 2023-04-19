@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ## Network
 #NIC Config
 interface=$(/sbin/ip -o -4 route show to default | awk '{print $5}')
