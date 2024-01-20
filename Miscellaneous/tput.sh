@@ -1,7 +1,7 @@
 #!/bin/sh
 
 function warn_1 {
-	tput sgr0; tput setb 4; tput bold
+	tput sgr0; tput setb 4; tput setaf 1; tput bold
 }
 
 function warn_2 {
