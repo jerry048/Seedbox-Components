@@ -4,7 +4,7 @@ declare -a qb_ver_list=("4.1.9" "4.1.9.1" "4.2.5" "4.3.9" "4.4.5" "4.5.5" "4.6.2
 unset qb_name_list i
 for i in "${qb_ver_list[@]}"
 do
-	qb_name_list+=("qBittorrent $i")
+	qb_name_list+=("qBittorrent-$i")
 done
 ## List of libtorrent Version that is supported
 declare -a lib_ver_list=("1_1_14" "v1.2.19" "v2.0.10")
@@ -191,7 +191,7 @@ install_qBittorrent_(){
 		warn "Unsupported CPU architecture"
 		return 1
 	fi
-	wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/$arch/qBittorrent%20$qb_ver%20-%20$lib_ver/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox
+	wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/$arch/$qb_ver%20-%20$lib_ver/qbittorrent-nox && chmod +x $HOME/qbittorrent-nox
 	#Check if the download is successful
 	if [ $? -ne 0 ]; then
 		warn "Failed to download qBittorrent-nox executable"
