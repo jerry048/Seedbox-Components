@@ -889,7 +889,7 @@ install_bbrx_() {
 	fi
 	wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/BBR/BBRx/BBRx.sh && chmod +x BBR.sh
 	# Check if download fail
-	if [ ! -f BBR.sh ]; then
+	if [ ! -f BBRx.sh ]; then
 		fail "BBR download failed"
 		return 1
 	fi
