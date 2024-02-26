@@ -323,15 +323,16 @@ install_autoremove-torrents_() {
 			return 1
 		fi
 	fi
-	pipx install autoremove-torrents
+	su $username -s /bin/sh -c "pipx install autoremove-torrents"
 	# Check if installation fail
 	if [ $? -ne 0 ]; then
 		fail "Autoremove-torrents installation failed"
 		return 1
 	fi
+	su user -s /bin/sh -c "pipx ensurepath"
     # qBittorrent
 	if test -f /usr/bin/qbittorrent-nox; then
-		touch /home/$username/.config.yml && chown $username /home/$username/.config.yml
+		touch /home/$username/.config.yml && chown $username:$username /home/$username/.config.yml
         cat << EOF >>/home/$username/.config.yml
 General-qb:          
   client: qbittorrent
@@ -344,12 +345,12 @@ General-qb:
   delete_data: true
 EOF
     fi
-    mkdir -p /home/$username/.autoremove-torrents/log && chown $username /home/$username/.autoremove-torrents/log
-	touch /home/$username/.autoremove-torrents/autoremove-torrents.sh && chown $username /home/$username/.autoremove-torrents/autoremove-torrents.sh
+    mkdir -p /home/$username/.autoremove-torrents/log && chown -R $username /home/$username/.autoremove-torrents
+	touch /home/$username/.autoremove-torrents/autoremove-torrents.sh && chown $username:$username /home/$username/.autoremove-torrents/autoremove-torrents.sh
 	cat << EOF >/home/$username/.autoremove-torrents/autoremove-torrents.sh
 #!/bin/bash
 while true; do
-	/usr/local/bin/autoremove-torrents --conf=/home/$username/.config.yml --log=/home/$username/.autoremove-torrents
+	/home/user/.local/bin/autoremove-torrents --conf=/home/$username/.config.yml --log=/home/$username/.autoremove-torrents
 	sleep 5s
 done
 EOF
