@@ -552,7 +552,7 @@ kernel_settings_() {
 	rmem_default=262144 && wmem_default=16384
 	tcp_rmem="8192 $rmem_default $rmem_max" && tcp_wmem="4096 $wmem_default $wmem_max"
 	#Check if all the variables are Set
-	if [ -z $tcp_mem ]] || [[ -z $tcp_rmem ]] || [[ -z $tcp_wmem ]] || [ -z $rmem_max ] || [ -z $wmem_max ] || [ -z $win_scale ]; then
+	if [[ -z $tcp_mem ]] || [[ -z $tcp_rmem ]] || [[ -z $tcp_wmem ]] || [ -z $rmem_max ] || [ -z $wmem_max ] || [ -z $win_scale ]; then
 		fail "Kernel settings not set"
 		return 1
 	fi
