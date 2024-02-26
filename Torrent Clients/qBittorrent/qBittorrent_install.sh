@@ -318,6 +318,7 @@ WebUI\Password_PBKDF2="@ByteArray($PBKDF2password)"
 WebUI\Port=$qb_port
 WebUI\Username=$username
 EOF
+	rm qb_password_gen
     elif [[ "${qb_ver}" =~ "4.4."|"4.5."|"4.6." ]]; then
         wget  https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/$arch/qb_password_gen && chmod +x $HOME/qb_password_gen
         #Check if the download is successful
