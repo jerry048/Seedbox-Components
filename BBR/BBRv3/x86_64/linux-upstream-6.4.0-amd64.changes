@@ -1,0 +1,37 @@
+Format: 1.8
+Date: Fri, 16 Feb 2024 02:27:39 +0800
+Source: linux-upstream
+Binary: linux-headers-6.4.0+ linux-image-6.4.0+ linux-image-6.4.0+-dbg linux-libc-dev
+Architecture: amd64
+Version: 6.4.0-g7542cc7c41c0-1
+Distribution: bookworm
+Urgency: low
+Maintainer: root <root@HALO.server>
+Changed-By: root <root@HALO.server>
+Description:
+ linux-headers-6.4.0+ - Linux kernel headers for 6.4.0+ on amd64
+ linux-image-6.4.0+ - Linux kernel, version 6.4.0+
+ linux-image-6.4.0+-dbg - Linux kernel debugging symbols for 6.4.0+
+ linux-libc-dev - Linux support headers for userspace development
+Changes:
+ linux-upstream (6.4.0-g7542cc7c41c0-1) bookworm; urgency=low
+ .
+   * Custom built Linux kernel.
+Checksums-Sha1:
+ 20514f75bd095c4c2dd35351ba53fb17c2a81de0 9172620 linux-headers-6.4.0+_6.4.0-g7542cc7c41c0-1_amd64.deb
+ 68f294e243c7012beb073b56cd182ddf56d78605 803823812 linux-image-6.4.0+-dbg_6.4.0-g7542cc7c41c0-1_amd64.deb
+ d74a003f3e38a5ff82a6dc89796a34641c576c24 76061936 linux-image-6.4.0+_6.4.0-g7542cc7c41c0-1_amd64.deb
+ a126213d424f922e78e10fa5020b72175402ebc6 1309092 linux-libc-dev_6.4.0-g7542cc7c41c0-1_amd64.deb
+ 4efbaf80ed7af45da3c2ff5292c90aed1dffd268 6476 linux-upstream_6.4.0-g7542cc7c41c0-1_amd64.buildinfo
+Checksums-Sha256:
+ c67af026168401f22909497bccdfc617c4833fdfbd21aa756f112ee25179778e 9172620 linux-headers-6.4.0+_6.4.0-g7542cc7c41c0-1_amd64.deb
+ d1c3daa22d797e4be9c8cc7acdf2029d16ca2e750f1ece433a7cc6543a526911 803823812 linux-image-6.4.0+-dbg_6.4.0-g7542cc7c41c0-1_amd64.deb
+ eb09910cc2cf21ac3c1a74af815f95bccd085236f08cc9edf08ca5400290d4f9 76061936 linux-image-6.4.0+_6.4.0-g7542cc7c41c0-1_amd64.deb
+ e9a465ee9fdaed645cdd440581593e2243dbf0e6e0247c9058f6f0672dacc1c6 1309092 linux-libc-dev_6.4.0-g7542cc7c41c0-1_amd64.deb
+ ecba0d20a47d7c7ac976ad8bcf4d450bcdbcfd669a832073eb17631aed9f118c 6476 linux-upstream_6.4.0-g7542cc7c41c0-1_amd64.buildinfo
+Files:
+ 617acb8a90e49bb030301e91bf83c741 9172620 kernel optional linux-headers-6.4.0+_6.4.0-g7542cc7c41c0-1_amd64.deb
+ 9453d6da1e6ef5c3202ae4311a6a1a56 803823812 debug optional linux-image-6.4.0+-dbg_6.4.0-g7542cc7c41c0-1_amd64.deb
+ ec62c43cea7632e30de6c7f3e25256e5 76061936 kernel optional linux-image-6.4.0+_6.4.0-g7542cc7c41c0-1_amd64.deb
+ 44b0e36d1f1fb039ee51144ee4351871 1309092 devel optional linux-libc-dev_6.4.0-g7542cc7c41c0-1_amd64.deb
+ 77421e9f972d0e38d39372238fbee439 6476 kernel optional linux-upstream_6.4.0-g7542cc7c41c0-1_amd64.buildinfo

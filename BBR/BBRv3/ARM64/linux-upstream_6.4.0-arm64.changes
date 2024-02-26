@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Fri, 23 Feb 2024 16:57:52 +0000
+Source: linux-upstream
+Binary: linux-headers-6.4.0+ linux-image-6.4.0+ linux-libc-dev
+Built-For-Profiles: noudeb
+Architecture: arm64
+Version: 6.4.0-g7542cc7c41c0-3
+Distribution: jammy
+Urgency: low
+Maintainer: root <root@instance-20240224-0019>
+Changed-By: root <root@instance-20240224-0019>
+Description:
+ linux-headers-6.4.0+ - Linux kernel headers for 6.4.0+ on arm64
+ linux-image-6.4.0+ - Linux kernel, version 6.4.0+
+ linux-libc-dev - Linux support headers for userspace development
+Changes:
+ linux-upstream (6.4.0-g7542cc7c41c0-3) jammy; urgency=low
+ .
+   * Custom built Linux kernel.
+Checksums-Sha1:
+ f6efa1130abfbb13929d29aa948fc2ee0f11405a 8915752 linux-headers-6.4.0+_6.4.0-g7542cc7c41c0-3_arm64.deb
+ 6fc00153bb30c3d93f18af854491b205a81bc92d 11687524 linux-image-6.4.0+_6.4.0-g7542cc7c41c0-3_arm64.deb
+ ab965bff9793572c821c4c9fbf4c31bb2b210f31 1328168 linux-libc-dev_6.4.0-g7542cc7c41c0-3_arm64.deb
+ b4a9c98428e3cea1603c68aacd6752cc3ab73bc9 7016 linux-upstream_6.4.0-g7542cc7c41c0-3_arm64.buildinfo
+Checksums-Sha256:
+ 0a0fc339817f92d34035ef808087f57b7a964c346a47475ead0c0139a88c220b 8915752 linux-headers-6.4.0+_6.4.0-g7542cc7c41c0-3_arm64.deb
+ 661f7f84e99e032671c0113de91428a5b9c792ec7d9f9c058063b3883fd71231 11687524 linux-image-6.4.0+_6.4.0-g7542cc7c41c0-3_arm64.deb
+ 94a87639d9cdb420557f74abe798c69efd00bd34cc31b8c23a1f61e585c6b4d2 1328168 linux-libc-dev_6.4.0-g7542cc7c41c0-3_arm64.deb
+ 43154dab703d9a779ea6fcdc60dbeb1cee2c35a2d06479db8b4cd8056f70899c 7016 linux-upstream_6.4.0-g7542cc7c41c0-3_arm64.buildinfo
+Files:
+ 5351ecc81845eec3b4c11912ccb18581 8915752 kernel optional linux-headers-6.4.0+_6.4.0-g7542cc7c41c0-3_arm64.deb
+ 19430c5bd2d1ac1b2a7445e302eb91ea 11687524 kernel optional linux-image-6.4.0+_6.4.0-g7542cc7c41c0-3_arm64.deb
+ ef45feeda90eb9d27251bb20d2a22939 1328168 devel optional linux-libc-dev_6.4.0-g7542cc7c41c0-3_arm64.deb
+ 822c36dccfd164aea2a1ecce12677209 7016 kernel optional linux-upstream_6.4.0-g7542cc7c41c0-3_arm64.buildinfo
