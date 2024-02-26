@@ -1,19 +1,22 @@
 ## List of qBittorrent Version that is supported
 declare -a qb_ver_list=("4.1.9" "4.1.9.1" "4.2.5" "4.3.9" "4.4.5" "4.5.5" "4.6.2")
-
+#Generate the list of qBittorrent Version that is supported
+unset qb_name_list i
+for i in "${qb_ver_list[@]}"
+do
+	qb_name_list+=("qBittorrent $i")
+done
 ## List of libtorrent Version that is supported
 declare -a lib_ver_list=("1_1_14" "v1.2.19" "v2.0.10")
-
+#Generate the list of libtorrent Version that is supported
+unset lib_name_list i
+for i in "${lib_ver_list[@]}"
+do
+	lib_name_list+=("libtorrent-$i")
+done
 qb_ver_choose(){
 	need_input "Please choose your qBittorrent Version:"
-	#Generate the list of qBittorrent Version that is supported
-	unset options i
-	for i in "${qb_ver_list[@]}"
-	do
-		options+=("qBittorrent $i")
-	done
-
-	select opt in "${options[@]}"
+	select opt in "${qb_name_list[@]}"
 	do
 		case $opt in
 		qBittorrent*)
@@ -32,14 +35,7 @@ lib_ver_choose(){
 
 	## Allow users to determine which version of libtorrent to go with the qBittorrent
 	need_input "Please choose your libtorrent version:"
-	#Generate the list of libtorrent Version that is supported
-	unset options i
-	for i in "${lib_ver_list[@]}"
-	do
-		options+=("libtorrent-$i")
-	done
-
-	select opt in "${options[@]}"
+	select opt in "${lib_name_list[@]}"
 	do
 		case $opt in
 		libtorrent*)
@@ -56,7 +52,7 @@ lib_ver_check(){
 		lib_ver_choose
 	fi
 	## Check if the libtorrent version is supported
-	if [[ ! " ${lib_ver_list[@]} " =~ " ${lib_ver} " ]]; then
+	if [[ ! " ${lib_name_list[@]} " =~ " ${lib_ver} " ]]; then
 		warn "libtorrent $lib_ver is not supported"
 		lib_ver_choose
 	fi
@@ -145,12 +141,12 @@ lib_ver_check(){
 qb_install_check(){
 	# Check if qBittorrent version and libtorrent version are supported
 	## Check if the qBittorrent version is supported
-	if [[ ! " ${qb_ver_list[@]} " =~ " ${qb_ver} " ]]; then
+	if [[ ! " ${qb_name_list[@]} " =~ " ${qb_ver} " ]]; then
 		warn "qBittorrent $qb_ver is not supported"
 		qb_ver_choose
 	fi
 	## Check if the libtorrent version is supported
-	if [[ ! " ${lib_ver_list[@]} " =~ " ${lib_ver} " ]]; then
+	if [[ ! " ${lib_name_list[@]} " =~ " ${lib_ver} " ]]; then
 		warn "libtorrent $lib_ver is not supported"
 		lib_ver_check
 	fi
