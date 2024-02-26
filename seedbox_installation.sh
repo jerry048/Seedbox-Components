@@ -350,7 +350,7 @@ EOF
 	cat << EOF >/home/$username/.autoremove-torrents/autoremove-torrents.sh
 #!/bin/bash
 while true; do
-	/home/user/.local/bin/autoremove-torrents --conf=/home/$username/.config.yml --log=/home/$username/.autoremove-torrents
+	/home/user/.local/bin/autoremove-torrents --conf=/home/$username/.config.yml --log=/home/$username/.autoremove-torrents/log
 	sleep 5s
 done
 EOF
