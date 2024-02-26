@@ -200,8 +200,8 @@ install_qBittorrent_(){
 
 	# Install qbittorrent-nox
 	mv $HOME/qbittorrent-nox /usr/bin/qbittorrent-nox
-	mkdir -p /home/$username/qbittorrent/Downloads && chown $username /home/$username/qbittorrent/Downloads
-    mkdir -p /home/$username/.config/qBittorrent && chown $username /home/$username/.config/qBittorrent
+	mkdir -p /home/$username/qbittorrent/Downloads && chown -R $username:$username /home/$username/qbittorrent/
+    mkdir -p /home/$username/.config/qBittorrent && chown $username:$username /home/$username/.config/qBittorrent
 
 	# Create systemd services
 	if test -e /etc/systemd/system/qbittorrent-nox@.service; then
