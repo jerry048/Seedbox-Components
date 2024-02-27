@@ -27,7 +27,7 @@ fi
 
 #BBRx
 wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/BBR/BBRx/tcp_bbrx.c
-=if [ ! -f $HOME/tcp_bbrx.c ]; then
+if [ ! -f $HOME/tcp_bbrx.c ]; then
 	echo "Error: Download failed! Exiting." >&2
 	exit 1
 fi
