@@ -113,4 +113,4 @@ rm -r $HOME/.bbr
 ## Clear
 systemctl disable bbrinstall.service
 rm /etc/systemd/system/bbrinstall.service
-rm /root/BBR.sh
+rm /root/BBRx.sh
