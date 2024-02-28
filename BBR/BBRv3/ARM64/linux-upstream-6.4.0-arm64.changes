@@ -1,0 +1,37 @@
+Format: 1.8
+Date: Wed, 28 Feb 2024 07:54:26 +0000
+Source: linux-upstream
+Binary: linux-headers-6.4.0+ linux-image-6.4.0+ linux-image-6.4.0+-dbg linux-libc-dev
+Architecture: arm64
+Version: 6.4.0-g7542cc7c41c0-1
+Distribution: bookworm
+Urgency: low
+Maintainer: root <root@debian-32gb-hel1-1>
+Changed-By: root <root@debian-32gb-hel1-1>
+Description:
+ linux-headers-6.4.0+ - Linux kernel headers for 6.4.0+ on arm64
+ linux-image-6.4.0+ - Linux kernel, version 6.4.0+
+ linux-image-6.4.0+-dbg - Linux kernel debugging symbols for 6.4.0+
+ linux-libc-dev - Linux support headers for userspace development
+Changes:
+ linux-upstream (6.4.0-g7542cc7c41c0-1) bookworm; urgency=low
+ .
+   * Custom built Linux kernel.
+Checksums-Sha1:
+ 14517c3e47b81432a5af20b39a4f0f6ae3b150c7 8772304 linux-headers-6.4.0+_6.4.0-g7542cc7c41c0-1_arm64.deb
+ 9b8aed879b67fc3a406f7fcfccd6f51ac8a49532 781846160 linux-image-6.4.0+-dbg_6.4.0-g7542cc7c41c0-1_arm64.deb
+ e8b540953107f49a61b7a14c0e1f387e53772539 64185728 linux-image-6.4.0+_6.4.0-g7542cc7c41c0-1_arm64.deb
+ 7abb747aa5933341555cd0baa1506ddf56358a80 1286548 linux-libc-dev_6.4.0-g7542cc7c41c0-1_arm64.deb
+ 3a4013be30e59a56a777c524076cfa1b8c7b20e6 6414 linux-upstream_6.4.0-g7542cc7c41c0-1_arm64.buildinfo
+Checksums-Sha256:
+ 49cd48d1f7d4504acd96f2e08b90fc0dca1c847d0fe0e505394d89454cdf0549 8772304 linux-headers-6.4.0+_6.4.0-g7542cc7c41c0-1_arm64.deb
+ efed5f0642068a3418bdd9d1afce86fae1e5e98d603f2d58b8027b07bbe3efa0 781846160 linux-image-6.4.0+-dbg_6.4.0-g7542cc7c41c0-1_arm64.deb
+ 0e7e7392dce8e15035ea4452bc8b8de731cb0fb5576c4733fb7414f425e0bcba 64185728 linux-image-6.4.0+_6.4.0-g7542cc7c41c0-1_arm64.deb
+ 4e948c4334c30b63f5822346f708b5bba53c74f4bc2ff6651ee0923b0835ef27 1286548 linux-libc-dev_6.4.0-g7542cc7c41c0-1_arm64.deb
+ 65681184b0e74917e6b3d19e4cdf2b2672ccf199e7699b3ab7222468881a6491 6414 linux-upstream_6.4.0-g7542cc7c41c0-1_arm64.buildinfo
+Files:
+ cff626090390a9f77aabd08a5c1a67ca 8772304 kernel optional linux-headers-6.4.0+_6.4.0-g7542cc7c41c0-1_arm64.deb
+ b6eb6f30f946bf7295cc83ff060e2431 781846160 debug optional linux-image-6.4.0+-dbg_6.4.0-g7542cc7c41c0-1_arm64.deb
+ 24633100f618d8b8e459d225b744c2b6 64185728 kernel optional linux-image-6.4.0+_6.4.0-g7542cc7c41c0-1_arm64.deb
+ 4b015451a15ada577195feaac0ef7be3 1286548 devel optional linux-libc-dev_6.4.0-g7542cc7c41c0-1_arm64.deb
+ 84c96bd6cdc09fff46f0f3266043c19e 6414 kernel optional linux-upstream_6.4.0-g7542cc7c41c0-1_arm64.buildinfo

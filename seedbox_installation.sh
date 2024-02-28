@@ -934,7 +934,6 @@ install_bbrv3_() {
 		# Clean up
 		rm linux-headers-6.4.0+-amd64.deb linux-image-6.4.0+-amd64.deb linux-libc-dev_-6.4.0-amd64.deb
 	elif [ $(uname -m) == "aarch64" ]; then
-		fail "ARM is Not supported for now"
 		wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/BBR/BBRv3/ARM64/linux-headers-6.4.0+-arm64.deb
 		if [ ! -f linux-headers-6.4.0+-arm64.deb ]; then
 			fail "BBRv3 download failed"
@@ -946,15 +945,15 @@ install_bbrv3_() {
 			rm linux-headers-6.4.0+-arm64.deb
 			return 1
 		fi
-		wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/BBR/BBRv3/ARM64/linux-libc-dev_6.4.0-arm64.deb
+		wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/BBR/BBRv3/ARM64/linux-libc-dev_-6.4.0-arm64.deb
 		if [ ! -f linux-libc-dev_-6.4.0-amd64.deb ]; then
 			fail "BBRv3 download failed"
 			rm linux-headers-6.4.0+-arm64.deb linux-image-6.4.0+-arm64.deb
 			return 1
 		fi
-		apt install ./linux-headers-6.4.0+-arm64.deb ./linux-image-6.4.0+-arm64.deb ./linux-libc-dev_6.4.0-arm64.deb
+		apt install ./linux-headers-6.4.0+-arm64.deb ./linux-image-6.4.0+-arm64.deb ./linux-libc-dev_-6.4.0-arm64.deb
 		# Clean up
-		rm linux-headers-6.4.0+-arm64.deb linux-image-6.4.0+-arm64.deb linux-libc-dev_-6.4.0-amd64.deb
+		rm linux-headers-6.4.0+-arm64.deb linux-image-6.4.0+-arm64.deb linux-libc-dev_-6.4.0-arm64.deb
 	else
 		fail "$(uname -m) is not supported"
 	fi
