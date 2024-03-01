@@ -97,9 +97,13 @@ install_autobrr_() {
 		fail "Username not set"
 		return 1
 	fi
-if [ -z $(getent passwd $username) ]; then	# return if username does not exist
+	if [ -z $(getent passwd $username) ]; then	# return if username does not exist
 		fail "User does not exist"
 		return 1
+	fi
+	if [[ -z $autobrr_port ]]; then
+		fail "AutoBrr port not set"
+		autobrr_port=7474
 	fi
 	## Install AutoBrr
 	# Check CPU architecture
@@ -136,7 +140,7 @@ host = "0.0.0.0"
 #
 # Default: 7474
 #
-port = 7474
+port = $autobrr_port
 
 # Base url
 # Set custom baseUrl eg /autobrr/ to serve in subdirectory.
@@ -226,6 +230,10 @@ install_vertex_() {
 		fail "Username or password not set"
 		return 1
 	fi
+	if [[ -z $vertex_port ]]; then
+		fail "Vertex port not set"
+		vertex_port=3000
+	fi
 	#Check if docker is installed
 	if [ -z $(which docker) ]; then
 		curl -fsSL https://get.docker.com -o get-docker.sh
@@ -258,7 +266,7 @@ install_vertex_() {
 		fi
 	fi
 	if [ -z $(which apparmor-utils) ]; then
-		apt-get -y install 
+		apt-get -y install apparmor-utils
 		#Check if install is successful
 		if [ $? -ne 0 ]; then
 			fail "Apparmor-utils Installation Failed"
@@ -268,7 +276,7 @@ install_vertex_() {
 	timedatectl set-timezone Asia/Shanghai
 	mkdir -p /root/vertex
 	chmod 755 /root/vertex
-	docker run -d --name vertex --restart unless-stopped --network host -v /root/vertex:/vertex -e TZ=Asia/Shanghai lswl/vertex:stable
+	docker run -d --name vertex --restart unless-stopped -v /root/vertex:/vertex -p $vertex_port:3000 -e TZ=Asia/Shanghai lswl/vertex:stable
 	sleep 5s
 	# Check if Vertex is running
 	if ! [ "$( docker container inspect -f '{{.State.Status}}' vertex )" = "running" ]; then
@@ -309,8 +317,12 @@ install_autoremove-torrents_() {
 		fail "Username or password not set"
 		return 1
 	fi
+	if [[ -z $qb_port ]]; then
+		fail "qBittorrent port not set"
+		qb_port=8080
+	fi
 	#Check if autoremove-torrents is installed 
-	if test -f /usr/local/bin/autoremove-torrents; then
+	if [ -n $(which autoremove-torrents) ]; then
 		fail "Autoremove-torrents already installed"
 		return 1
 	fi
@@ -320,23 +332,34 @@ install_autoremove-torrents_() {
 		#Check if install is successful
 		if [ $? -ne 0 ]; then
 			fail "Pipx Installation Failed"
-			return 1
+			#Alternative method
+			apt-get -qqy install python3-distutils python3-apt
+			[[ $(pip --version) ]] || (apt-get -qqy install curl && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3 get-pip.py && rm get-pip.py )
+			pip -q install autoremove-torrents
+			# Check if installation fail
+			if [ $? -ne 0 ]; then
+				fail "Autoremove-torrents installation failed"
+				return 1
+			fi
+		else
+			su $username -s /bin/sh -c "pipx install autoremove-torrents"
+			# Check if installation fail
+			if [ $? -ne 0 ]; then
+				fail "Autoremove-torrents installation failed"
+				return 1
+			fi
+			su user -s /bin/sh -c "pipx ensurepath"
 		fi
 	fi
-	su $username -s /bin/sh -c "pipx install autoremove-torrents"
-	# Check if installation fail
-	if [ $? -ne 0 ]; then
-		fail "Autoremove-torrents installation failed"
-		return 1
-	fi
-	su user -s /bin/sh -c "pipx ensurepath"
+	
+
     # qBittorrent
 	if test -f /usr/bin/qbittorrent-nox; then
 		touch /home/$username/.config.yml && chown $username:$username /home/$username/.config.yml
         cat << EOF >>/home/$username/.config.yml
 General-qb:          
   client: qbittorrent
-  host: http://127.0.0.1:8080
+  host: http://127.0.0.1:$qb_port
   username: $username
   password: $password
   strategies:
@@ -345,6 +368,7 @@ General-qb:
   delete_data: true
 EOF
     fi
+	sed -i 's+127.0.0.1: +127.0.0.1:+g' $HOME/.config.yml
     mkdir -p /home/$username/.autoremove-torrents/log && chown -R $username /home/$username/.autoremove-torrents
 	touch /home/$username/.autoremove-torrents/autoremove-torrents.sh && chown $username:$username /home/$username/.autoremove-torrents/autoremove-torrents.sh
 	cat << EOF >/home/$username/.autoremove-torrents/autoremove-torrents.sh
@@ -959,6 +983,3 @@ install_bbrv3_() {
 	fi
 	return 0
 }
-
-
-
