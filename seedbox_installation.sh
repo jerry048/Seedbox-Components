@@ -512,21 +512,21 @@ kernel_settings_() {
 		#memory_size in terms of 4K pages
 		memory_4k=$(( $memory_size / 4 ))
 		#Calculate the TCP memory values
-		if [ $memory_4k -gt  2000000 ]; then			#If memory is greater than 8GB
-			tcp_mem_min=$(( $memory_4k / 16 )) && tcp_mem_pressure=$(( $memory_4k / 6 )) && tcp_mem_max=$(( $memory_4k / 6 ))
-			rmem_max=536870912 && wmem_max=536870912 && win_scale=-2
-		elif [ $memory_4k -gt 1000000 ]; then			#If memory is greater than 4GB
-			tcp_mem_min=$(( $memory_4k / 16 )) && tcp_mem_pressure=$(( $memory_4k / 8 )) && tcp_mem_max=$(( $memory_4k / 8 ))
-			rmem_max=268435456 && wmem_max=268435456 && win_scale=1
-		elif [ $memory_4k -gt 250000 ]; then			#If memory is greater than 1GB
-			tcp_mem_min=$(( $memory_4k / 32 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 8 ))
-			rmem_max=67108864 && wmem_max=67108864 && win_scale=1
-		elif [ $memory_4k -gt 125000 ]; then			#If memory is greater than 512MB
-			tcp_mem_min=$(( $memory_4k / 32 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 8 ))
+		if [ $memory_size -le 524288 ]; then		#If memory is equal or less than 512MB
+			tcp_mem_min=$(( $memory_4k / 64 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 16 ))
+			rmem_max=8388608 && wmem_max=8388608 && win_scale=3
+		elif [ $memory_size -le 1048576 ]; then		#If memory is equal or less than 1GB
+			tcp_mem_min=$(( $memory_4k / 32 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 10 ))
 			rmem_max=16777216 && wmem_max=16777216 && win_scale=2
-		else											#If memory is less than 512MB
+		elif [ $memory_size -le 4194304 ]; then		#If memory is equal or less than 4GB
+			tcp_mem_min=$(( $memory_4k / 32 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 10 ))
+			rmem_max=67108864 && wmem_max=33554432 && win_scale=1
+		elif [ $memory_size -le 8388608 ]; then		#If memory is equal or less than 8GB
 			tcp_mem_min=$(( $memory_4k / 32 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 8 ))
-			rmem_max=12582912 && wmem_max=12582912 && win_scale=2
+			rmem_max=134217728 && wmem_max=67108864 && win_scale=1
+		else										#If memory is greater than 8GB
+			tcp_mem_min=$(( $memory_4k / 32 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 8 ))
+			rmem_max=134217728 && wmem_max=134217728 && win_scale=-2
 		fi
 		#Check if the calculated values are greater than the cap
 		if [ $tcp_mem_min -gt $tcp_mem_min_cap ]; then
