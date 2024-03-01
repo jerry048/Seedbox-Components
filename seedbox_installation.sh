@@ -321,8 +321,7 @@ install_autoremove-torrents_() {
 		fail "qBittorrent port not set"
 		qb_port=8080
 	fi
-	#Check if autoremove-torrents is installed 
-	if [ -n $(which autoremove-torrents) ]; then
+	if [ -f /home/$username/.config.yml ]; then
 		fail "Autoremove-torrents already installed"
 		return 1
 	fi
