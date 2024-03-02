@@ -56,35 +56,35 @@ seperator() {
 
 ## System Update and Install Dependencies
 update() {
-    apt-get -y update && apt-get -y upgrade
+    apt-get -qqy update && apt-get -qqy upgrade
 
     # Install Dependencies
 	if [ -z $(which sudo) ]; then
-		apt-get install sudo -y
+		apt-get install sudo -qqy
 		if [ $? -ne 0 ]; then
 			fail_exit "Sudo Installation Failed"
 		fi
 	fi
 	if [ -z $(which wget) ]; then
-		apt-get install wget -y
+		apt-get install wget -qqy
 		if [ $? -ne 0 ]; then
 			fail_exit "Wget Installation Failed"
 		fi
 	fi
 	if [ -z $(which curl) ]; then
-		apt-get install curl -y
+		apt-get install curl -qqy
 		if [ $? -ne 0 ]; then
 			fail_exit "Curl Installation Failed"
 		fi
 	fi
 	if [ -z $(which sysstat) ]; then
-		apt-get install sysstat -y
+		apt-get install sysstat -qqy
 		if [ $? -ne 0 ]; then
 			fail_exit "Sysstat Installation Failed"
 		fi
 	fi
 	if [ -z $(which psmisc) ]; then
-		apt-get install psmisc -y
+		apt-get install psmisc -qqy
 		if [ $? -ne 0 ]; then
 			fail_exit "Psmisc Installation Failed"
 		fi
@@ -536,20 +536,20 @@ kernel_settings_() {
 		memory_4k=$(( $memory_size / 4 ))
 		#Calculate the TCP memory values
 		if [ $memory_size -le 524288 ]; then		#If memory is equal or less than 512MB
-			tcp_mem_min=$(( $memory_4k / 64 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 16 ))
+			tcp_mem_min=$(( $memory_4k / 32 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 8 ))
 			rmem_max=8388608 && wmem_max=8388608 && win_scale=3
 		elif [ $memory_size -le 1048576 ]; then		#If memory is equal or less than 1GB
-			tcp_mem_min=$(( $memory_4k / 32 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 10 ))
+			tcp_mem_min=$(( $memory_4k / 16 )) && tcp_mem_pressure=$(( $memory_4k / 8 )) && tcp_mem_max=$(( $memory_4k / 6 ))
 			rmem_max=16777216 && wmem_max=16777216 && win_scale=2
 		elif [ $memory_size -le 4194304 ]; then		#If memory is equal or less than 4GB
-			tcp_mem_min=$(( $memory_4k / 32 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 10 ))
-			rmem_max=67108864 && wmem_max=33554432 && win_scale=1
+			tcp_mem_min=$(( $memory_4k / 8 )) && tcp_mem_pressure=$(( $memory_4k / 4 )) && tcp_mem_max=$(( $memory_4k / 2 ))
+			rmem_max=16777216 && wmem_max=33554432 && win_scale=1
 		elif [ $memory_size -le 8388608 ]; then		#If memory is equal or less than 8GB
-			tcp_mem_min=$(( $memory_4k / 32 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 8 ))
-			rmem_max=134217728 && wmem_max=67108864 && win_scale=1
+			tcp_mem_min=$(( $memory_4k / 8 )) && tcp_mem_pressure=$(( $memory_4k / 4 )) && tcp_mem_max=$(( $memory_4k / 2 ))
+			rmem_max=33554432 && wmem_max=33554432 && win_scale=1
 		else										#If memory is greater than 8GB
-			tcp_mem_min=$(( $memory_4k / 32 )) && tcp_mem_pressure=$(( $memory_4k / 16 )) && tcp_mem_max=$(( $memory_4k / 8 ))
-			rmem_max=134217728 && wmem_max=134217728 && win_scale=-2
+			tcp_mem_min=$(( $memory_4k / 8 )) && tcp_mem_pressure=$(( $memory_4k / 4 )) && tcp_mem_max=$(( $memory_4k / 2 ))
+			rmem_max=67108864 && wmem_max=134217728 && win_scale=-2
 		fi
 		#Check if the calculated values are greater than the cap
 		if [ $tcp_mem_min -gt $tcp_mem_min_cap ]; then
@@ -580,6 +580,30 @@ kernel_settings_() {
 		return 1
 	fi
     cat << EOF >/etc/sysctl.conf
+###/proc/sys/kernel/ Variables:
+##https://www.kernel.org/doc/Documentation/admin-guide/sysctl/kernel.rst
+
+# Allow for more PIDs
+kernel.pid_max = 4194303
+
+# Maximum size of an IPC queue
+kernel.msgmnb = 65536
+
+# maximum size of an IPC message
+kernel.msgmax = 65536
+
+## Process Scheduler Optimization
+kernel.sched_migration_cost_ns = 5000000
+kernel.sched_autogroup_enabled = 0
+kernel.sched_min_granularity_ns = 10000000
+kernel.sched_wakeup_granularity_ns = 15000000
+
+
+
+
+
+
+
 ###/proc/sys/fs/
 ##https://www.kernel.org/doc/Documentation/admin-guide/sysctl/fs.rst
 
