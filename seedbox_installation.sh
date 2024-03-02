@@ -561,13 +561,13 @@ kernel_settings_() {
 			rmem_max=16777216 && wmem_max=16777216 && win_scale=2
 		elif [ $memory_size -le 4194304 ]; then		#If memory is equal or less than 4GB
 			tcp_mem_min=$(( $memory_4k / 8 )) && tcp_mem_pressure=$(( $memory_4k / 4 )) && tcp_mem_max=$(( $memory_4k / 2 ))
-			rmem_max=16777216 && wmem_max=33554432 && win_scale=1
-		elif [ $memory_size -le 8388608 ]; then		#If memory is equal or less than 8GB
+			rmem_max=16777216 && wmem_max=33554432 && win_scale=2
+		elif [ $memory_size -le 16777216 ]; then	#If memory is equal or less than 16GB
 			tcp_mem_min=$(( $memory_4k / 8 )) && tcp_mem_pressure=$(( $memory_4k / 4 )) && tcp_mem_max=$(( $memory_4k / 2 ))
-			rmem_max=33554432 && wmem_max=33554432 && win_scale=1
-		else										#If memory is greater than 8GB
+			rmem_max=33554432 && wmem_max=33554432 && win_scale=2
+		else										#If memory is greater than 16GB
 			tcp_mem_min=$(( $memory_4k / 8 )) && tcp_mem_pressure=$(( $memory_4k / 4 )) && tcp_mem_max=$(( $memory_4k / 2 ))
-			rmem_max=67108864 && wmem_max=134217728 && win_scale=-2
+			rmem_max=67108864 && wmem_max=134217728 && win_scale=2
 		fi
 		#Check if the calculated values are greater than the cap
 		if [ $tcp_mem_min -gt $tcp_mem_min_cap ]; then
@@ -620,8 +620,6 @@ kernel.sched_wakeup_granularity_ns = 15000000
 
 
 
-
-
 ###/proc/sys/fs/
 ##https://www.kernel.org/doc/Documentation/admin-guide/sysctl/fs.rst
 
@@ -632,6 +630,25 @@ fs.file-max = 1048576
 fs.nr_open = 1048576
 
 
+
+
+
+###/proc/sys/vm Variables:
+##https://www.kernel.org/doc/Documentation/admin-guide/sysctl/vm.rst
+
+# Percentage of available system memory which when dirty then system can start writing data to the disks
+# NOTE: The total available memory is not equal to total system memory
+vm.dirty_background_ratio = 5
+# Percentage of available system memory which when dirty, the process doing writes would block and write out dirty pages to the disks
+vm.dirty_ratio = 30
+
+# Define when dirty inode is old enough to be eligible for writeback by the kernel flusher threads & interval to wakeup dirtytime_writeback thread
+vm.dirty_expire_centisecs = 1000
+# Period between each wake up and write old data out to disk
+vm.dirty_writeback_centisecs = 100
+
+# Reduce swapping and keep memory pages in physical memory
+vm.swappiness = 10
 
 
 
@@ -685,9 +702,22 @@ net.core.wmem_max = $wmem_max
 
 # Maximum ancillary buffer size allowed per socket
 # NOTE:Setting this value too high can lead to excessive kernel memory allocation for sockets, which might not be needed and could potentially waste system resources. 
-# net.core.optmem_max = 20480
+net.core.optmem_max = 4194304
 
 
+
+
+
+###/proc/sys/net/ipv4/* Variables:
+##https://www.kernel.org/doc/Documentation/networking/ip-sysctl.rst
+## Routing Settings
+# Time, in seconds, that cached PMTU information is kept
+net.ipv4.route.mtu_expires = 1800
+# Lowest possible mss setting, actuall advertised MSS depends on the first hop route MTU
+net.ipv4.route.min_adv_mss = 536
+# Set PMTU to this value if fragmentation-required ICMP is received for that destination
+# NOTE: Only necessary if "net.ipv4.ip_no_pmtu_disc" is set to mode 1
+#net.ipv4.route.min_pmtu = 1500
 
 
 
@@ -716,22 +746,22 @@ net.ipv4.neigh.default.unres_qlen_bytes = 16777216
 
 ## TCP variables
 # Maximum queue length of completely established sockets waiting to be accepted
-net.core.somaxconn = 10000
+net.core.somaxconn = 524288
 
 #Maximum queue length of incomplete sockets i.e. half-open connection
 #NOTE: THis value should not be above "net.core.somaxconn", since that is also a hard open limit of maximum queue length of incomplete sockets/
 #Kernel will take the lower one out of two as the maximum queue length of incomplete sockets
-net.ipv4.tcp_max_syn_backlog = 10000
+net.ipv4.tcp_max_syn_backlog = 524288
 
 # Recover and handle all requests instead of resetting them when system is overflowed with a burst of new connection attempts
 net.ipv4.tcp_abort_on_overflow = 0
 
 # Maximal number of TCP sockets not attached to any user file handle (i.e. orphaned connections), held by system.
 # NOTE: each orphan eats up to ~64K of unswappable memory
-net.ipv4.tcp_max_orphans = 131072
+net.ipv4.tcp_max_orphans = 262144
 
 # Maximal number of time-wait sockets held by system simultaneously
-net.ipv4.tcp_max_tw_buckets = 5000
+net.ipv4.tcp_max_tw_buckets = 10240
 
 
 # Enable TCP Packetization-Layer Path, and use initial MSS of tcp_base_mss
@@ -876,7 +906,7 @@ net.ipv4.tcp_timestamps = 0
 net.ipv4.tcp_fin_timeout = 5
 
 # Enable cache metrics on closing connections
-net.ipv4.tcp_no_metrics_save = 0
+net.ipv4.tcp_no_metrics_save = 1
 
 # Enable reuse of TIME-WAIT sockets for new connections
 net.ipv4.tcp_tw_reuse = 1
