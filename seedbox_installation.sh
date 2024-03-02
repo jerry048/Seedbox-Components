@@ -412,6 +412,24 @@ tuned_() {
 			return 1
 		fi
 	fi
+    mkdir /etc/tuned/general
+    touch /etc/tuned/general/tuned.conf
+    cat << EOF >/etc/tuned/general/tuned.conf
+[main]
+#CPU & Scheduler Optimization
+[cpu]
+governor=performance
+energy_perf_bias=performance
+min_perf_pct=100
+
+[disk]
+readahead=4096
+
+[bootloader]
+cmdline=skew_tick=1
+EOF
+
+    tuned-adm profile general
 	return 0
 }
 
