@@ -412,24 +412,6 @@ tuned_() {
 			return 1
 		fi
 	fi
-    mkdir /etc/tuned/general
-    touch /etc/tuned/general/tuned.conf
-    cat << EOF >/etc/tuned/general/tuned.conf
-[main]
-#CPU & Scheduler Optimization
-[cpu]
-governor=performance
-energy_perf_bias=performance
-min_perf_pct=100
-
-[disk]
-readahead=4096
-
-[bootloader]
-cmdline=skew_tick=1
-EOF
-
-    tuned-adm profile general
 	return 0
 }
 
@@ -560,14 +542,14 @@ kernel_settings_() {
 			tcp_mem_min=$(( $memory_4k / 16 )) && tcp_mem_pressure=$(( $memory_4k / 8 )) && tcp_mem_max=$(( $memory_4k / 6 ))
 			rmem_max=16777216 && wmem_max=16777216 && win_scale=2
 		elif [ $memory_size -le 4194304 ]; then		#If memory is equal or less than 4GB
-			tcp_mem_min=$(( $memory_4k / 8 )) && tcp_mem_pressure=$(( $memory_4k / 4 )) && tcp_mem_max=$(( $memory_4k / 2 ))
-			rmem_max=16777216 && wmem_max=33554432 && win_scale=2
+			tcp_mem_min=$(( $memory_4k / 8 )) && tcp_mem_pressure=$(( $memory_4k / 6 )) && tcp_mem_max=$(( $memory_4k / 4 ))
+			rmem_max=33554432 && wmem_max=33554432 && win_scale=2
 		elif [ $memory_size -le 16777216 ]; then	#If memory is equal or less than 16GB
 			tcp_mem_min=$(( $memory_4k / 8 )) && tcp_mem_pressure=$(( $memory_4k / 4 )) && tcp_mem_max=$(( $memory_4k / 2 ))
-			rmem_max=33554432 && wmem_max=33554432 && win_scale=2
+			rmem_max=67108864 && wmem_max=67108864 && win_scale=1
 		else										#If memory is greater than 16GB
 			tcp_mem_min=$(( $memory_4k / 8 )) && tcp_mem_pressure=$(( $memory_4k / 4 )) && tcp_mem_max=$(( $memory_4k / 2 ))
-			rmem_max=67108864 && wmem_max=134217728 && win_scale=2
+			rmem_max=134217728 && wmem_max=134217728 && win_scale=-2
 		fi
 		#Check if the calculated values are greater than the cap
 		if [ $tcp_mem_min -gt $tcp_mem_min_cap ]; then
