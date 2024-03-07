@@ -989,6 +989,8 @@ EOF
 }
 
 install_bbrv3_() {
+	fail "BBRv3 is not supported now!"
+	return 1
 	if [ $(uname -m) == "x86_64" ]; then
 		wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/BBR/BBRv3/x86_64/linux-headers-6.4.0+-amd64.deb
 		if [ ! -f linux-headers-6.4.0+-amd64.deb ]; then
